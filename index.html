@@ -2,90 +2,150 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="HDX/HCE 개발 계획 시뮬레이터 프로젝트: 엑셀 로드맵 기반 부문별 주간 업무 부하 분석, 부족 사유 설명, 일정·인원 가정 전후 비교와 보고서 출력." />
-  <title>HDX/HCE 프로젝트 | 개발 계획 시뮬레이터</title>
-
-  <!--
-    ============================================================
-    HDX/HCE DEVELOPMENT PLAN SIMULATOR DASHBOARD
-    - GitHub Pages에 index.html 하나만 올려서 사용할 수 있는 단일 페이지입니다.
-    - CSS / JavaScript를 모두 이 파일 내부에 포함했습니다.
-    - 나눔고딕은 Google Fonts를 사용하며, 로딩 실패 시 시스템 고딕체로 대체됩니다.
-    - 이 HTML은 기획서 기반 프로젝트 소개 대시보드입니다.
-      실제 로드맵 엑셀 분석은 별도 배포된 시뮬레이터에서 실행합니다.
-    ============================================================
-  -->
-
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#071630" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <meta name="description" content="홍보실 운영 HDX/HCE 개발 계획 시뮬레이터 프로젝트 허브. 프로젝트 소개, 검증 현황, 공지사항, 자유게시판, 자료실, 갤러리와 직원 참여 안내." />
+  <title>HDX/HCE 프로젝트 | 사내 참여 허브 · 개발 계획 시뮬레이터</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet" />
   <style>
-    /* =========================================================
-       1. DESIGN TOKENS
-       기존 색상 유지: 다크그린 + 골드 + 아이보리, 총 3개 중심 컬러
-       ========================================================= */
     :root {
-      --green: #123D32;
-      --gold: #D6A646;
-      --ivory: #F6F1E6;
+      color-scheme: light;
+      --navy:#081833; --navy2:#10244a; --royal:#2855d9; --royal-light:#567cf2;
+      --cyan:#64e1e4; --aqua:#baf4f1; --ink:#15233c; --mute:#75839a;
+      --line:#e8edf6; --paper:#f6f8fc; --white:#fff; --radius:20px;
+      --shadow:0 18px 55px rgba(16,38,91,.075);
+      --max:1200px;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:'Nanum Gothic',sans-serif;color:var(--ink);background:#fff;font-size:14px;line-height:1.75}
+    button,input,textarea,select{font:inherit} button{cursor:pointer} a{color:inherit;text-decoration:none} img{max-width:100%}
+    svg{display:block} .ico{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+    .container{max-width:var(--max);padding:0 28px;margin:auto}.screenreader{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-bottom:1px solid #edf1f7}
+    .header-row{height:83px;display:flex;align-items:center;gap:26px}.brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
+    .brand-mark{height:41px;width:41px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,#082044,#315cdb);color:#fff;font-weight:800;font-size:19px;letter-spacing:-2px;box-shadow:0 7px 18px #2855d937}
+    .brand-text{display:grid;line-height:1.27;gap:4px}.brand-text strong{font-size:16px;letter-spacing:-.9px}.brand-text small{font-size:9px;color:#8794a8;font-weight:800;letter-spacing:1.35px}
+    .nav{display:flex;gap:27px;align-items:center;margin-left:auto}.nav a{font-size:13px;font-weight:800;color:#59677b;transition:color .2s;white-space:nowrap}.nav a:hover,.nav a.active{color:var(--royal)}
+    .header-actions{display:flex;align-items:center;gap:9px;margin-left:6px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid transparent;border-radius:11px;padding:13px 20px;font-size:13px;font-weight:800;line-height:1.25;transition:transform .2s,box-shadow .2s,background .2s;white-space:nowrap}
+    .btn:hover:not(:disabled){transform:translateY(-2px)}.btn:disabled{opacity:.5;cursor:wait}.btn svg{width:17px;height:17px}
+    .btn-dark{background:var(--navy);color:#fff;box-shadow:0 7px 16px #09183320}.btn-dark:hover{background:#183565}
+    .btn-blue{background:var(--royal);color:#fff;box-shadow:0 8px 22px #2855d937}.btn-blue:hover{background:#1c43bf}
+    .btn-white{background:#fff;color:var(--navy)}.btn-ghost{background:#fff;color:#344564;border-color:#dfe7f2}.btn-ghost:hover{border-color:#b7c8ed;background:#f7faff}
+    .btn-outline-light{background:rgba(255,255,255,.06);color:#fff;border-color:rgba(255,255,255,.36)}.btn-outline-light:hover{background:rgba(255,255,255,.15)}
+    .btn-small{padding:10px 15px;font-size:12px;border-radius:10px}.mobile-menu{display:none;border:0;background:transparent;color:var(--ink);padding:8px;margin-left:auto}
+    .profile-pill{background:#f1f5fd;color:#2249a9;border-radius:11px;display:flex;gap:7px;align-items:center;padding:9px 12px;font-size:12px;font-weight:800;border:0;max-width:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .hero{min-height:620px;position:relative;overflow:hidden;background:#071933;color:#fff;isolation:isolate}
+    #heroCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.78;pointer-events:none}
+    .hero:before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse 60% 65% at 91% 35%,#184dc67d,transparent 77%),radial-gradient(ellipse 35% 45% at 52% 80%,#124c817e,transparent 80%),linear-gradient(105deg,#07142b 4%,#0c2852 68%,#123e88 130%)}
+    .hero:after{content:"";position:absolute;right:-180px;top:-240px;width:750px;height:750px;border:1px solid #ffffff14;border-radius:50%;box-shadow:0 0 0 95px #ffffff05,0 0 0 190px #ffffff05;pointer-events:none}
+    .hero-content{min-height:620px;display:grid;grid-template-columns:1.13fr .87fr;align-items:center;gap:40px;position:relative;padding-top:40px;padding-bottom:70px}
+    .hero-info{position:relative;z-index:2}.eyebrow{display:inline-flex;align-items:center;gap:9px;font-weight:800;font-size:11px;letter-spacing:2px;color:var(--cyan);margin-bottom:30px}
+    .eyebrow .dot{height:7px;width:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 13px var(--cyan)}
+    h1,h2,h3,h4,p{margin-top:0}.hero h1{font-size:clamp(36px,4.2vw,57px);line-height:1.34;letter-spacing:-3.1px;font-weight:800;margin-bottom:23px}.hero h1 em{font-style:normal;background:linear-gradient(90deg,#8ddff7,#a2baff,#fff);color:transparent;background-clip:text}
+    .hero-lead{color:#c2d0e6;font-size:15px;line-height:2.1;letter-spacing:-.5px;max-width:495px;margin-bottom:35px}
+    .hero-buttons{display:flex;gap:12px;flex-wrap:wrap}.hero-buttons .btn{padding:16px 24px}
+    .hero-note{display:flex;align-items:center;gap:9px;margin-top:32px;font-size:11px;color:#92a9c9}.hero-note .ico{width:15px;height:15px;color:var(--cyan)}
+    .hero-visual{position:relative;z-index:1;height:425px;display:flex;align-items:center;justify-content:center}
+    .hero-orbit{width:350px;height:350px;border:1px solid #8caffd3b;border-radius:50%;position:absolute;animation:rotateOrbit 24s linear infinite}
+    .hero-orbit:before,.hero-orbit:after{content:"";position:absolute;border-radius:50%;background:var(--cyan);box-shadow:0 0 25px #64e1e4ac}
+    .hero-orbit:before{width:11px;height:11px;left:31px;top:69px}.hero-orbit:after{width:7px;height:7px;right:32px;bottom:70px;background:#97b4ff}
+    .hero-orbit.orbit2{width:475px;height:475px;border-style:dashed;opacity:.45;animation-direction:reverse;animation-duration:42s}
+    .hero-core{width:260px;height:260px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:1px solid #ffffff34;background:radial-gradient(circle at 35% 30%,#477fff7a,#13326c85 51%,#10295991);box-shadow:0 0 95px #387cf540,inset 0 0 45px #ffffff0d;backdrop-filter:blur(12px);position:relative}
+    .hero-core .core-icon{width:72px;height:72px;display:grid;place-items:center;border-radius:19px;background:linear-gradient(135deg,#6ea6ff,#3760e3);box-shadow:0 14px 40px #132a7959;margin-bottom:20px}
+    .core-icon .ico{width:35px;height:35px;color:#fff;stroke-width:1.6}.hero-core strong{font-size:18px;letter-spacing:1.1px}.hero-core small{margin-top:5px;font-size:10px;letter-spacing:2px;color:#b2d1ff}
+    .floating-panel{position:absolute;padding:15px 19px;border:1px solid #ffffff37;background:#15376c99;backdrop-filter:blur(14px);border-radius:13px;box-shadow:0 14px 40px #00000028;animation:levitate 5s ease-in-out infinite}
+    .floating-panel .panel-top{font-size:10px;color:#9cd5f3;letter-spacing:1px;font-weight:800;margin-bottom:7px}.floating-panel strong{font-size:14px}.floating-panel p{font-size:10px;color:#b4c8e1;margin:4px 0 0}
+    .float-1{left:-5px;top:43px}.float-2{right:-15px;bottom:55px;animation-delay:-2.5s}.float-2:before{content:"●";color:var(--cyan);margin-right:6px}
+    .hero-bottomline{position:absolute;bottom:0;left:0;right:0;border-top:1px solid #ffffff1e;background:#ffffff06}.hero-bottomline .container{min-height:61px;display:flex;align-items:center;gap:32px;font-size:10px;color:#cbd9ec;font-weight:800;letter-spacing:1.1px}.hero-bottomline strong{color:#fff}.hero-bottomline span{display:flex;gap:8px;align-items:center}.hero-bottomline .ico{width:15px;height:15px;color:var(--cyan)}
+    .section{padding:104px 0}.section-alt{background:var(--paper)}.section-top{display:flex;align-items:end;justify-content:space-between;gap:25px;margin-bottom:35px}.section-kicker{display:flex;align-items:center;gap:10px;color:var(--royal);font-size:11px;font-weight:800;letter-spacing:2px;margin-bottom:13px}.section-kicker:before{content:"";width:18px;height:2px;background:var(--royal)}
+    .section h2,.board-title{font-size:clamp(26px,3vw,37px);font-weight:800;letter-spacing:-1.8px;line-height:1.45;margin-bottom:13px}.section-desc{color:#78869a;font-size:13px;line-height:2;margin:0}.text-link{display:inline-flex;align-items:center;gap:7px;color:var(--royal);font-weight:800;font-size:12px}.text-link svg{width:15px;height:15px}
+    .feature-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.feature{border:1px solid #e8eef7;background:#fff;border-radius:18px;padding:30px 24px;min-height:268px;position:relative;transition:transform .25s,box-shadow .25s,border-color .25s;cursor:pointer}
+    .feature:hover{transform:translateY(-7px);box-shadow:var(--shadow);border-color:#ccdafa}.feature-icon{width:53px;height:53px;display:grid;place-items:center;background:#edf3ff;border-radius:15px;color:var(--royal);margin-bottom:27px}.feature-icon svg{width:25px;height:25px}.feature:nth-child(2) .feature-icon{background:#edfbfb;color:#169ba9}.feature:nth-child(3) .feature-icon{background:#f0f0ff;color:#655cda}.feature:nth-child(4) .feature-icon{background:#fff5eb;color:#ee9a50}
+    .feature-number{position:absolute;right:23px;top:25px;font-size:11px;font-weight:800;color:#c3ccdc;letter-spacing:1px}.feature h3{font-size:17px;margin-bottom:11px;letter-spacing:-.7px}.feature p{color:#8995a7;font-size:12px;line-height:1.9;margin-bottom:24px}.feature-arrow{color:#315cdb}.feature-arrow .ico{width:20px}
+    .manifest{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:80px}.manifest-art{min-height:380px;border-radius:24px;background:linear-gradient(135deg,#0d2150,#1e55b2 88%);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+    .manifest-art:before{content:"";position:absolute;width:360px;height:360px;border:1px solid #ffffff35;border-radius:50%;box-shadow:0 0 0 54px #ffffff0b,0 0 0 110px #ffffff08;animation:pulseArt 6s ease-in-out infinite}.manifest-art .manifest-logo{z-index:1;width:135px;height:135px;border-radius:34px;background:#ffffff1d;border:1px solid #ffffff5c;display:grid;place-items:center;transform:rotate(-8deg);box-shadow:0 30px 60px #06102e61}.manifest-art .manifest-logo .ico{width:68px;height:68px;color:#fff;stroke-width:1.2}.manifest-art .art-tag{position:absolute;color:#fff;background:#ffffff20;border:1px solid #ffffff40;padding:8px 15px;border-radius:30px;font-size:10px;letter-spacing:2px;font-weight:800}.art-tag.a{top:56px;left:34px}.art-tag.b{bottom:56px;right:34px}
+    .manifest h2{margin-bottom:21px}.manifest .manifest-copy{font-size:13px;color:#74829a;line-height:2.2;margin-bottom:26px}.mini-values{display:grid;gap:17px}.mini-value{display:flex;align-items:center;gap:13px;font-weight:800;color:#263956;font-size:12px}.mini-value .ico{color:var(--royal);width:18px;height:18px}
+    .steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px}.step{background:#fff;border:1px solid #e6edf8;border-radius:18px;padding:29px;position:relative;min-height:188px}.step .step-no{font-size:11px;color:var(--royal);font-weight:800;letter-spacing:2px}.step h3{font-size:16px;letter-spacing:-.6px;margin:17px 0 9px}.step p{font-size:12px;color:#8390a3;line-height:1.9}.step:not(:last-child):after{content:'→';position:absolute;right:-16px;top:48%;z-index:2;color:#3d68e4;font-size:18px;font-weight:800}
+    .join-banner{background:linear-gradient(115deg,#0b224c 8%,#1b4ab7 95%);border-radius:23px;min-height:237px;display:flex;justify-content:space-between;align-items:center;gap:30px;padding:50px 61px;color:#fff;position:relative;overflow:hidden}
+    .join-banner:after{content:"";width:430px;height:430px;position:absolute;right:-120px;top:-100px;border:1px solid #ffffff36;border-radius:50%;box-shadow:0 0 0 66px #ffffff0b,0 0 0 132px #ffffff08}
+    .join-banner > *{position:relative;z-index:1}.join-banner p{font-size:11px;letter-spacing:1.7px;color:var(--cyan);font-weight:800;margin-bottom:12px}.join-banner h2{font-size:28px;line-height:1.55;letter-spacing:-1.3px;margin:0}.join-banner .btn{padding:15px 23px}
+    .footer{background:#08152b;color:#98abc6;padding:54px 0 28px}.footer-top{display:flex;justify-content:space-between;align-items:center;gap:30px;padding-bottom:35px;border-bottom:1px solid #ffffff1c}.footer .brand-text strong{color:#fff}.footer-desc{font-size:11px;color:#869ab8;max-width:440px;margin-top:16px;line-height:2}.footer-links{display:flex;gap:25px;flex-wrap:wrap;font-size:12px;color:#bcc9db;font-weight:800}.footer-bottom{padding-top:24px;font-size:10px;display:flex;gap:15px;justify-content:space-between;align-items:center}.footer-bottom span{opacity:.76}
+    .page-head{background:linear-gradient(112deg,#0a1c3a,#143776);color:#fff;position:relative;overflow:hidden}.page-head:after{content:"";position:absolute;right:2%;top:-135px;width:450px;height:450px;border:1px solid #ffffff1e;border-radius:50%;box-shadow:0 0 0 65px #ffffff08,0 0 0 125px #ffffff07}.page-head-inner{position:relative;z-index:1;padding-top:64px;padding-bottom:65px}.page-head .tagline{color:var(--cyan);font-size:11px;letter-spacing:2.4px;font-weight:800;margin-bottom:17px}.page-head h1{font-size:39px;letter-spacing:-2px;margin:0 0 8px}.page-head p{font-size:13px;color:#b3c6e4;margin-bottom:0}
+    .board-wrap{min-height:470px;padding-top:55px;padding-bottom:105px}.board-toolbar{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:22px}.board-total{font-size:12px;font-weight:800;color:#4c5b73}.board-total strong{color:var(--royal)}.toolbar-actions{display:flex;gap:10px;align-items:center}.searchbox{border:1px solid #e0e7f0;background:#fff;border-radius:11px;display:flex;align-items:center;gap:8px;padding:0 13px;height:41px}.searchbox .ico{width:16px;height:16px;color:#8190a5}.searchbox input{outline:none;border:0;width:190px;font-size:12px;color:var(--ink)}
+    .post-list{border-top:2px solid var(--navy);background:#fff}.post-row{display:grid;grid-template-columns:68px minmax(0,1fr) 105px 115px;gap:14px;align-items:center;min-height:83px;border-bottom:1px solid var(--line);padding:15px 17px;transition:background .2s;cursor:pointer}.post-row:hover{background:#f7f9fe}.post-row .post-num{font-size:12px;font-weight:800;color:#a0adc0}.post-row h3{font-size:14px;font-weight:800;letter-spacing:-.5px;margin:0 0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.post-row p{font-size:11px;color:#8c99a9;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.post-row .author,.post-row .date{font-size:11px;color:#8290a2;text-align:center}
+    .webzine-grid,.gallery-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:23px}.webzine-card,.gallery-card{background:#fff;border:1px solid #e7ecf4;border-radius:17px;overflow:hidden;transition:transform .2s,box-shadow .2s;cursor:pointer}.webzine-card:hover,.gallery-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}.card-thumb{height:195px;position:relative;overflow:hidden;background:linear-gradient(135deg,#19356d,#4277d7);display:flex;align-items:center;justify-content:center}.card-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .35s}.webzine-card:hover .card-thumb img,.gallery-card:hover .card-thumb img{transform:scale(1.045)}.thumb-fallback{display:flex;align-items:center;justify-content:center;color:#ffffff67;width:100%;height:100%;background:radial-gradient(circle at 75% 25%,#558af1aa,transparent 50%),linear-gradient(135deg,#0f2a59,#2b62ca)}.thumb-fallback svg{width:48px;height:48px;stroke-width:1.1}.card-body{padding:24px}.card-body .meta{font-size:10px;color:var(--royal);font-weight:800;letter-spacing:1px;margin-bottom:10px}.card-body h3{font-size:16px;letter-spacing:-.65px;line-height:1.5;margin-bottom:9px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.card-body p{font-size:11px;line-height:1.9;color:#8190a3;min-height:41px;margin-bottom:17px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.card-cardfoot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #eff2f7;padding-top:14px;font-size:10px;color:#8995a5}
+    .gallery-card .card-thumb{height:240px}.gallery-card .card-body{padding:18px 20px}.gallery-card .card-body h3{font-size:13px;margin:0 0 7px}.gallery-card .card-cardfoot{border:0;padding:0}
+    .empty{border:1px dashed #d6e1f2;background:#f9fbff;border-radius:16px;text-align:center;padding:70px 20px;color:#7788a3}.empty .ico{width:40px;height:40px;margin:0 auto 18px;color:#7392cf}.empty h3{color:#405371;font-size:17px;margin-bottom:8px}.empty p{font-size:12px;margin-bottom:0}.loading{padding:65px;color:#7c8ca7;text-align:center;font-size:12px}.spinner{width:30px;height:30px;border:3px solid #e5ecf9;border-top-color:var(--royal);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 15px}
+    .gate{max-width:650px;margin:0 auto;border:1px solid #e0e8f5;background:linear-gradient(160deg,#fff,#f5f8ff);border-radius:20px;text-align:center;padding:68px 40px}.gate .gate-icon{width:64px;height:64px;display:grid;place-items:center;margin:0 auto 20px;background:#e9efff;color:#3864d6;border-radius:18px}.gate h2{font-size:23px;letter-spacing:-1px;margin:0 0 10px}.gate p{color:#7e8ca1;font-size:12px;margin-bottom:25px}.gate .gate-icon .ico{width:29px;height:29px}
+    .modal{border:0;border-radius:22px;box-shadow:0 24px 100px #091b3560;padding:0;max-height:min(90vh,1100px);overflow-y:auto;color:var(--ink);width:min(540px,calc(100vw - 28px))}.modal::backdrop{background:#05102dc2;backdrop-filter:blur(5px)}.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;padding:31px 33px 16px}.modal-head h2{font-size:23px;letter-spacing:-1px;margin-bottom:7px}.modal-head p{margin:0;color:#8693a5;font-size:11px}.modal-close{border:0;background:#f0f3f8;border-radius:10px;color:#607188;padding:8px}.modal-close:hover{background:#e7edf8}.modal-close .ico{width:18px;height:18px}.modal-content{padding:12px 33px 34px}.modal label{font-size:11px;font-weight:800;color:#384862;display:block;margin-bottom:8px}.field{width:100%;background:#fbfcff;border:1px solid #dfe6f0;color:var(--ink);border-radius:11px;padding:13px 14px;outline:none;font-size:13px}.field:focus{border-color:#5a7be5;box-shadow:0 0 0 3px #3f6af21b}.field-group{margin-bottom:18px}.modal textarea.field{min-height:160px;resize:vertical;line-height:1.8}.modal .form-hint{color:#97a2b2;font-size:10px;margin-top:6px}.form-submit{width:100%;padding:15px;margin-top:3px}.form-switch{text-align:center;color:#8b99ad;font-size:12px;margin-top:18px}.text-button{border:0;background:transparent;color:var(--royal);font-weight:800;padding:3px 5px}.form-error{background:#fff0f0;color:#b7384a;border-radius:9px;padding:11px 12px;font-size:11px;margin-bottom:16px;display:none}.form-error:not(:empty){display:block}
+    .modal-wide{width:min(770px,calc(100vw - 28px))}.modal-wide .modal-content{padding-top:14px}.file-input{width:100%;border:1px dashed #b9c8e5;border-radius:12px;padding:18px;background:#f9fbff;font-size:12px;color:#6a7a91}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}.modal-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:16px}.modal-actions .btn{min-width:110px}
+    .detail-modal{width:min(830px,calc(100vw - 28px))}.detail-cover{height:280px;background:linear-gradient(135deg,#0f2b63,#4b71cc);overflow:hidden}.detail-cover img{width:100%;height:100%;object-fit:cover}.detail-body{padding:33px 40px 38px}.detail-category{font-size:11px;font-weight:800;color:var(--royal);letter-spacing:1px;margin-bottom:11px}.detail-body h2{font-size:29px;letter-spacing:-1.1px;line-height:1.5;margin:0 0 13px}.detail-meta{font-size:11px;color:#8390a1;display:flex;gap:17px;flex-wrap:wrap;margin-bottom:23px;padding-bottom:21px;border-bottom:1px solid var(--line)}.detail-copy{font-size:13px;color:#384760;line-height:2.1;white-space:pre-wrap;min-height:70px;overflow-wrap:anywhere}.detail-attachments{margin-top:30px;padding:17px;border:1px solid #e7edf7;border-radius:13px;background:#f9fbff}.detail-attachments h3{font-size:13px;margin-bottom:12px}.filelink{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:10px 0;border-bottom:1px solid #e7edf5}.filelink:last-child{border-bottom:0}.filelink .file-name{font-size:12px;color:#2e456e;overflow-wrap:anywhere}.filelink button{color:var(--royal);border:0;background:transparent;font-size:11px;font-weight:800;display:flex;align-items:center;gap:5px}.filelink button .ico{width:14px;height:14px}.detail-actions{display:flex;gap:9px;justify-content:flex-end;padding-top:22px}
+    .toast{position:fixed;z-index:100;bottom:24px;right:24px;background:#0e2350;color:#fff;max-width:min(400px,calc(100vw - 32px));box-shadow:0 13px 35px #08183243;border-radius:12px;padding:14px 19px;font-weight:700;font-size:12px;display:none;line-height:1.6}.toast.show{display:block;animation:toastIn .25s ease}.toast.error{background:#9b2942}
+    [hidden]{display:none!important}
+    @keyframes rotateOrbit{to{transform:rotate(360deg)}}@keyframes levitate{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}@keyframes pulseArt{50%{transform:scale(1.08)}}@keyframes spin{to{transform:rotate(360deg)}}@keyframes toastIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:1120px){.nav{gap:14px}.nav a{font-size:12px}.header-row{gap:12px}.hero-visual{transform:scale(.82)}.hero-content{gap:0}.floating-panel.float-1{left:-25px}.floating-panel.float-2{right:-25px}}
+    @media(max-width:900px){.mobile-menu{display:grid;place-items:center}.nav{display:none;position:absolute;top:82px;left:0;right:0;background:#fff;box-shadow:0 16px 27px #0b2b5030;padding:20px 28px 25px;flex-direction:column;align-items:stretch;gap:0}.nav.open{display:flex}.nav a{padding:13px 0;border-bottom:1px solid #eff2f7}.header-actions{margin-left:0}.header-actions .btn{display:none}.hero-content{grid-template-columns:1fr;min-height:690px;padding-top:65px;padding-bottom:115px}.hero-visual{position:absolute;right:-125px;top:110px;transform:scale(.72);opacity:.3;pointer-events:none}.hero-info{max-width:640px}.manifest{gap:38px}.feature-grid{grid-template-columns:repeat(2,1fr)}.steps-grid{gap:13px}.step{padding:23px}.webzine-grid,.gallery-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:620px){body{font-size:13px}.container{padding:0 19px}.header-row{height:70px}.brand-text strong{font-size:13px}.brand-text small{font-size:8px}.brand-mark{width:35px;height:35px;font-size:16px;border-radius:10px}.header-actions .profile-pill{max-width:102px;font-size:10px;padding:9px}.nav{top:69px;padding:18px 19px}.hero,.hero-content{min-height:628px}.hero-content{padding-top:70px;padding-bottom:103px}.eyebrow{font-size:9px;letter-spacing:1px;margin-bottom:24px}.hero h1{font-size:37px;letter-spacing:-2px;line-height:1.43}.hero-lead{font-size:12px;line-height:2.1;margin-bottom:28px;max-width:330px}.hero-visual{transform:scale(.56);top:115px;right:-185px;opacity:.18}.hero-buttons{flex-wrap:wrap}.hero-buttons .btn{padding:14px 17px;font-size:11px}.hero-note{font-size:10px;margin-top:26px}.hero-bottomline .container{gap:15px;flex-wrap:wrap;min-height:60px;justify-content:center}.hero-bottomline span{font-size:9px}.hero-bottomline span:first-child{display:none}.section{padding:75px 0}.section h2{font-size:28px}.section-top{margin-bottom:28px}.section-desc{font-size:12px}.feature-grid{gap:12px}.feature{padding:20px 17px;min-height:246px}.feature-icon{width:47px;height:47px;margin-bottom:22px}.feature h3{font-size:15px}.feature p{font-size:11px}.feature-number{right:15px;top:18px}.manifest{grid-template-columns:1fr;gap:36px}.manifest-art{min-height:280px}.manifest-art:before{transform:scale(.75)}.manifest-art .manifest-logo{width:95px;height:95px}.manifest-art .manifest-logo .ico{width:49px;height:49px}.steps-grid{grid-template-columns:1fr;gap:13px}.step{min-height:unset;padding:22px}.step h3{margin:10px 0 6px}.step p{margin:0}.step:not(:last-child):after{display:none}.join-banner{padding:36px 27px;display:block;min-height:235px}.join-banner h2{font-size:23px;margin-bottom:23px}.join-banner .btn{padding:14px 19px}.footer-top{display:block}.footer-links{margin-top:28px;gap:15px}.footer-bottom{display:block;line-height:2}.page-head-inner{padding-top:48px;padding-bottom:48px}.page-head h1{font-size:30px}.board-wrap{padding-top:34px;padding-bottom:75px}.board-toolbar{align-items:stretch;gap:16px}.toolbar-actions{width:100%;justify-content:space-between}.searchbox{flex:1}.searchbox input{width:100%}.post-row{grid-template-columns:35px minmax(0,1fr) 70px;padding:15px 6px;gap:8px}.post-row .author{display:none}.post-row .date{font-size:10px}.post-row h3{font-size:12px}.webzine-grid,.gallery-grid{grid-template-columns:1fr;gap:15px}.card-thumb{height:220px}.gallery-card .card-thumb{height:290px}.modal-head{padding:25px 22px 12px}.modal-content{padding:12px 22px 28px}.form-row{grid-template-columns:1fr;gap:0}.detail-cover{height:200px}.detail-body{padding:25px 24px}.detail-body h2{font-size:23px}.detail-meta{gap:9px}.detail-copy{font-size:12px}.modal-actions .btn{min-width:0}.gate{padding:50px 24px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+  
+/* 원본 HDX/HCE 시뮬레이터 대시보드: 원본의 CSS를 이 화면에만 적용 */
+#simulatorPage{
+      --green: #0A244B;
+      --gold: #58D8E5;
+      --ivory: #F2F6FF;
 
-      --green-96: rgba(18, 61, 50, 0.96);
-      --green-88: rgba(18, 61, 50, 0.88);
-      --green-72: rgba(18, 61, 50, 0.72);
-      --green-18: rgba(18, 61, 50, 0.18);
-      --green-10: rgba(18, 61, 50, 0.10);
-      --green-06: rgba(18, 61, 50, 0.06);
-      --gold-24: rgba(214, 166, 70, 0.24);
-      --gold-14: rgba(214, 166, 70, 0.14);
+      --green-96: rgba(10, 36, 75, 0.96);
+      --green-88: rgba(10, 36, 75, 0.88);
+      --green-72: rgba(10, 36, 75, 0.72);
+      --green-18: rgba(10, 36, 75, 0.18);
+      --green-10: rgba(10, 36, 75, 0.10);
+      --green-06: rgba(10, 36, 75, 0.06);
+      --gold-24: rgba(88, 216, 229, 0.24);
+      --gold-14: rgba(88, 216, 229, 0.14);
 
       --radius-xl: 28px;
       --radius-lg: 20px;
       --radius-md: 14px;
-      --shadow: 0 18px 55px rgba(18, 61, 50, 0.12);
-      --shadow-soft: 0 10px 28px rgba(18, 61, 50, 0.08);
+      --shadow: 0 18px 55px rgba(10, 36, 75, 0.12);
+      --shadow-soft: 0 10px 28px rgba(10, 36, 75, 0.08);
       --content: 1380px;
     }
-
-    * {
+#simulatorPage *{
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-
-    html {
+#simulatorPage{
       scroll-behavior: smooth;
       background: var(--ivory);
     }
-
-    body {
+#simulatorPage{
       font-family: "Nanum Gothic", "Malgun Gothic", Arial, sans-serif;
       background: var(--ivory);
       color: var(--green);
       line-height: 1.65;
       min-height: 100vh;
     }
-
-    a {
+#simulatorPage a{
       color: inherit;
       text-decoration: none;
     }
-
-    button,
-    input {
+#simulatorPage button, #simulatorPage input{
       font: inherit;
     }
-
-    /* =========================================================
-       2. TOP NAVIGATION
-       ========================================================= */
-    .topbar {
+#simulatorPage .topbar{
       position: sticky;
       top: 0;
       z-index: 1000;
       backdrop-filter: blur(18px);
       background: var(--green-96);
-      border-bottom: 1px solid rgba(246, 241, 230, 0.14);
+      border-bottom: 1px solid rgba(242, 246, 255, 0.14);
     }
-
-    .nav-wrap {
+#simulatorPage .nav-wrap{
       max-width: var(--content);
       margin: 0 auto;
       padding: 0 28px;
@@ -95,8 +155,7 @@
       justify-content: space-between;
       gap: 24px;
     }
-
-    .brand {
+#simulatorPage .brand{
       display: flex;
       align-items: center;
       gap: 12px;
@@ -105,8 +164,7 @@
       letter-spacing: -0.03em;
       white-space: nowrap;
     }
-
-    .brand-mark {
+#simulatorPage .brand-mark{
       width: 38px;
       height: 38px;
       border-radius: 12px;
@@ -115,76 +173,61 @@
       display: grid;
       place-items: center;
       font-weight: 800;
-      box-shadow: inset 0 0 0 1px rgba(18, 61, 50, 0.12);
+      box-shadow: inset 0 0 0 1px rgba(10, 36, 75, 0.12);
     }
-
-    .nav-links {
+#simulatorPage .nav-links{
       display: flex;
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
       justify-content: flex-end;
     }
-
-    .nav-link {
-      color: rgba(246, 241, 230, 0.78);
+#simulatorPage .nav-link{
+      color: rgba(242, 246, 255, 0.78);
       padding: 10px 14px;
       border-radius: 999px;
       font-size: 14px;
       transition: 180ms ease;
     }
-
-    .nav-link:hover,
-    .nav-link.active {
+#simulatorPage .nav-link:hover, #simulatorPage .nav-link.active{
       background: var(--gold);
       color: var(--green);
     }
-
-    /* =========================================================
-       3. COMMON LAYOUT
-       ========================================================= */
-    .page {
+#simulatorPage .page{
       max-width: var(--content);
       margin: 0 auto;
       padding: 0 28px 80px;
     }
-
-    section {
+#simulatorPage section{
       scroll-margin-top: 96px;
     }
-
-    .section-block {
+#simulatorPage .section-block{
       margin-top: 34px;
     }
-
-    .section-heading {
+#simulatorPage .section-heading{
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
       gap: 24px;
       margin-bottom: 18px;
     }
-
-    .section-heading h2 {
+#simulatorPage .section-heading h2{
       font-size: clamp(24px, 3vw, 34px);
       letter-spacing: -0.045em;
       line-height: 1.25;
     }
-
-    .section-heading p {
+#simulatorPage .section-heading p{
       color: var(--green-72);
       max-width: 660px;
       font-size: 14px;
     }
-
-    .card {
-      background: rgba(246, 241, 230, 0.86);
+#simulatorPage .card{
+      background: rgba(242, 246, 255, 0.86);
       border: 1px solid var(--green-10);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-soft);
     }
-
-    .eyebrow {
+#simulatorPage .eyebrow{
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -197,8 +240,7 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
-
-    .btn {
+#simulatorPage .btn{
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -211,33 +253,25 @@
       font-weight: 800;
       transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
     }
-
-    .btn:hover {
+#simulatorPage .btn:hover{
       transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(18, 61, 50, 0.15);
+      box-shadow: 0 10px 25px rgba(10, 36, 75, 0.15);
     }
-
-    .btn-primary {
+#simulatorPage .btn-primary{
       background: var(--gold);
       color: var(--green);
     }
-
-    .btn-secondary {
+#simulatorPage .btn-secondary{
       background: var(--green);
       color: var(--ivory);
       border-color: var(--green);
     }
-
-    .btn-ghost {
+#simulatorPage .btn-ghost{
       background: transparent;
       color: var(--green);
       border-color: var(--green-18);
     }
-
-    /* =========================================================
-       4. HERO
-       ========================================================= */
-    .hero {
+#simulatorPage .hero{
       margin-top: 28px;
       background: var(--green);
       color: var(--ivory);
@@ -247,32 +281,27 @@
       overflow: hidden;
       box-shadow: var(--shadow);
     }
-
-    .hero::before,
-    .hero::after {
+#simulatorPage .hero::before, #simulatorPage .hero::after{
       content: "";
       position: absolute;
       border-radius: 50%;
       pointer-events: none;
     }
-
-    .hero::before {
+#simulatorPage .hero::before{
       width: 360px;
       height: 360px;
       top: -180px;
       right: -70px;
       background: var(--gold-24);
     }
-
-    .hero::after {
+#simulatorPage .hero::after{
       width: 220px;
       height: 220px;
       bottom: -120px;
       left: 48%;
-      background: rgba(246, 241, 230, 0.06);
+      background: rgba(242, 246, 255, 0.06);
     }
-
-    .hero-grid {
+#simulatorPage .hero-grid{
       position: relative;
       z-index: 1;
       display: grid;
@@ -280,53 +309,45 @@
       gap: 54px;
       align-items: center;
     }
-
-    .hero h1 {
+#simulatorPage .hero h1{
       margin-top: 18px;
       font-size: clamp(38px, 5vw, 72px);
       line-height: 1.08;
       letter-spacing: -0.055em;
       max-width: 900px;
     }
-
-    .hero h1 span {
+#simulatorPage .hero h1 span{
       color: var(--gold);
     }
-
-    .hero-copy {
+#simulatorPage .hero-copy{
       margin-top: 20px;
-      color: rgba(246, 241, 230, 0.75);
+      color: rgba(242, 246, 255, 0.75);
       max-width: 760px;
       font-size: clamp(15px, 1.7vw, 18px);
     }
-
-    .hero-actions {
+#simulatorPage .hero-actions{
       margin-top: 30px;
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
     }
-
-    .hero-actions .btn-secondary {
+#simulatorPage .hero-actions .btn-secondary{
       background: var(--ivory);
       color: var(--green);
       border-color: var(--ivory);
     }
-
-    .hero-status {
-      border: 1px solid rgba(246, 241, 230, 0.16);
-      background: rgba(246, 241, 230, 0.06);
+#simulatorPage .hero-status{
+      border: 1px solid rgba(242, 246, 255, 0.16);
+      background: rgba(242, 246, 255, 0.06);
       border-radius: 24px;
       padding: 28px;
       backdrop-filter: blur(8px);
     }
-
-    .hero-status-label {
+#simulatorPage .hero-status-label{
       font-size: 13px;
-      color: rgba(246, 241, 230, 0.68);
+      color: rgba(242, 246, 255, 0.68);
     }
-
-    .hero-progress-value {
+#simulatorPage .hero-progress-value{
       margin-top: 8px;
       font-size: 54px;
       line-height: 1;
@@ -334,56 +355,46 @@
       letter-spacing: -0.05em;
       color: var(--gold);
     }
-
-    .hero-progress-track {
+#simulatorPage .hero-progress-track{
       margin-top: 18px;
       width: 100%;
       height: 11px;
       border-radius: 999px;
-      background: rgba(246, 241, 230, 0.13);
+      background: rgba(242, 246, 255, 0.13);
       overflow: hidden;
     }
-
-    .hero-progress-bar {
+#simulatorPage .hero-progress-bar{
       width: 0;
       height: 100%;
       background: var(--gold);
       border-radius: inherit;
       transition: width 900ms cubic-bezier(.2,.8,.2,1);
     }
-
-    .hero-meta {
+#simulatorPage .hero-meta{
       margin-top: 18px;
       display: grid;
       gap: 10px;
       font-size: 13px;
-      color: rgba(246, 241, 230, 0.72);
+      color: rgba(242, 246, 255, 0.72);
     }
-
-    .meta-row {
+#simulatorPage .meta-row{
       display: flex;
       justify-content: space-between;
       gap: 16px;
     }
-
-    /* =========================================================
-       5. SUMMARY CARDS
-       ========================================================= */
-    .summary-grid {
+#simulatorPage .summary-grid{
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 16px;
       margin-top: 20px;
     }
-
-    .summary-card {
+#simulatorPage .summary-card{
       padding: 22px;
       min-height: 150px;
       position: relative;
       overflow: hidden;
     }
-
-    .summary-card::after {
+#simulatorPage .summary-card::after{
       content: "";
       position: absolute;
       width: 64px;
@@ -393,35 +404,27 @@
       border-radius: 50%;
       background: var(--gold-14);
     }
-
-    .summary-label {
+#simulatorPage .summary-label{
       color: var(--green-72);
       font-size: 13px;
     }
-
-    .summary-value {
+#simulatorPage .summary-value{
       margin-top: 8px;
       font-size: 32px;
       font-weight: 800;
       letter-spacing: -0.045em;
     }
-
-    .summary-note {
+#simulatorPage .summary-note{
       margin-top: 6px;
       font-size: 12px;
       color: var(--green-72);
     }
-
-    /* =========================================================
-       6. RESOURCE / GOOGLE DRIVE
-       ========================================================= */
-    .resource-grid {
+#simulatorPage .resource-grid{
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 18px;
     }
-
-    .resource-card {
+#simulatorPage .resource-card{
       padding: 28px;
       display: flex;
       flex-direction: column;
@@ -429,28 +432,24 @@
       position: relative;
       overflow: hidden;
     }
-
-    .resource-card h3 {
+#simulatorPage .resource-card h3{
       font-size: 24px;
       letter-spacing: -0.04em;
       margin-top: 16px;
     }
-
-    .resource-card p {
+#simulatorPage .resource-card p{
       color: var(--green-72);
       margin-top: 12px;
       font-size: 14px;
     }
-
-    .resource-actions {
+#simulatorPage .resource-actions{
       margin-top: auto;
       padding-top: 24px;
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
     }
-
-    .folder-path {
+#simulatorPage .folder-path{
       margin-top: 18px;
       padding: 14px 16px;
       border-radius: 14px;
@@ -459,22 +458,19 @@
       font-size: 12px;
       word-break: break-all;
     }
-
-    .upload-guide {
+#simulatorPage .upload-guide{
       margin-top: 18px;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
     }
-
-    .guide-step {
+#simulatorPage .guide-step{
       border-radius: 14px;
       padding: 14px;
       background: var(--green-06);
       min-height: 112px;
     }
-
-    .guide-step strong {
+#simulatorPage .guide-step strong{
       display: block;
       font-size: 12px;
       color: var(--gold);
@@ -484,22 +480,19 @@
       border-radius: 999px;
       margin-bottom: 8px;
     }
-
-    .guide-step span {
+#simulatorPage .guide-step span{
       font-size: 12px;
       color: var(--green-72);
     }
-
-    .folder-frame-wrap {
+#simulatorPage .folder-frame-wrap{
       margin-top: 18px;
       overflow: hidden;
       border-radius: var(--radius-lg);
       border: 1px solid var(--green-10);
-      background: rgba(246, 241, 230, 0.88);
+      background: rgba(242, 246, 255, 0.88);
       box-shadow: var(--shadow-soft);
     }
-
-    .folder-frame-head {
+#simulatorPage .folder-frame-head{
       min-height: 54px;
       padding: 0 18px;
       display: flex;
@@ -510,48 +503,36 @@
       color: var(--ivory);
       font-size: 13px;
     }
-
-    .folder-frame {
+#simulatorPage .folder-frame{
       width: 100%;
       height: 460px;
       border: 0;
       background: var(--ivory);
     }
-
-    /* =========================================================
-       7. PROGRESS AREA / CANVAS GRAPH
-       ========================================================= */
-    .progress-grid {
+#simulatorPage .progress-grid{
       display: grid;
       grid-template-columns: 0.78fr 1.22fr;
       gap: 18px;
     }
-
-    .chart-card,
-    .work-card {
+#simulatorPage .chart-card, #simulatorPage .work-card{
       padding: 26px;
     }
-
-    .chart-card h3,
-    .work-card h3 {
+#simulatorPage .chart-card h3, #simulatorPage .work-card h3{
       font-size: 20px;
       letter-spacing: -0.035em;
     }
-
-    .donut-wrap {
+#simulatorPage .donut-wrap{
       position: relative;
       width: min(300px, 100%);
       aspect-ratio: 1;
       margin: 20px auto 0;
     }
-
-    #progressChart {
+#simulatorPage #progressChart{
       width: 100%;
       height: 100%;
       display: block;
     }
-
-    .donut-center {
+#simulatorPage .donut-center{
       position: absolute;
       inset: 0;
       display: grid;
@@ -559,68 +540,54 @@
       pointer-events: none;
       text-align: center;
     }
-
-    .donut-center strong {
+#simulatorPage .donut-center strong{
       display: block;
       font-size: 42px;
       letter-spacing: -0.05em;
     }
-
-    .donut-center > div > span {
+#simulatorPage .donut-center > div > span{
       display: block;
       color: var(--green-72);
       font-size: 12px;
     }
-
-    .work-list {
+#simulatorPage .work-list{
       margin-top: 22px;
       display: grid;
       gap: 18px;
     }
-
-    .work-row {
+#simulatorPage .work-row{
       display: grid;
       grid-template-columns: 150px 1fr 54px;
       gap: 14px;
       align-items: center;
     }
-
-    .work-name {
+#simulatorPage .work-name{
       font-size: 13px;
       font-weight: 700;
     }
-
-    .work-track {
+#simulatorPage .work-track{
       height: 12px;
       border-radius: 999px;
       background: var(--green-10);
       overflow: hidden;
     }
-
-    .work-bar {
+#simulatorPage .work-bar{
       width: 0;
       height: 100%;
       border-radius: inherit;
       background: var(--green);
       transition: width 800ms cubic-bezier(.2,.8,.2,1);
     }
-
-    .work-value {
+#simulatorPage .work-value{
       text-align: right;
       font-size: 13px;
       font-weight: 800;
     }
-
-    /* =========================================================
-       8. GANTT CHART
-       - JS의 projectTasks 배열로 처리 단계 위치를 표시합니다.
-       ========================================================= */
-    .gantt-card {
+#simulatorPage .gantt-card{
       padding: 0;
       overflow: hidden;
     }
-
-    .gantt-toolbar {
+#simulatorPage .gantt-toolbar{
       padding: 22px 24px;
       display: flex;
       justify-content: space-between;
@@ -628,30 +595,24 @@
       gap: 18px;
       border-bottom: 1px solid var(--green-10);
     }
-
-    .gantt-toolbar h3 {
+#simulatorPage .gantt-toolbar h3{
       font-size: 20px;
       letter-spacing: -0.035em;
     }
-
-    .gantt-note {
+#simulatorPage .gantt-note{
       font-size: 12px;
       color: var(--green-72);
     }
-
-    .gantt-scroll {
+#simulatorPage .gantt-scroll{
       overflow-x: auto;
       scrollbar-width: thin;
     }
-
-    .gantt {
+#simulatorPage .gantt{
       min-width: 1160px;
       display: grid;
       grid-template-columns: 240px 1fr;
     }
-
-    .gantt-label-head,
-    .gantt-time-head {
+#simulatorPage .gantt-label-head, #simulatorPage .gantt-time-head{
       min-height: 56px;
       background: var(--green);
       color: var(--ivory);
@@ -660,55 +621,46 @@
       font-size: 12px;
       font-weight: 700;
     }
-
-    .gantt-label-head {
+#simulatorPage .gantt-label-head{
       padding: 0 20px;
     }
-
-    .gantt-time-head {
+#simulatorPage .gantt-time-head{
       display: grid;
       grid-template-columns: repeat(8, 1fr);
     }
-
-    .gantt-time-head span {
+#simulatorPage .gantt-time-head span{
       text-align: center;
-      border-left: 1px solid rgba(246, 241, 230, 0.12);
+      border-left: 1px solid rgba(242, 246, 255, 0.12);
     }
-
-    .gantt-label {
+#simulatorPage .gantt-label{
       min-height: 72px;
       padding: 13px 20px;
       border-bottom: 1px solid var(--green-10);
       display: flex;
       flex-direction: column;
       justify-content: center;
-      background: rgba(246, 241, 230, 0.94);
+      background: rgba(242, 246, 255, 0.94);
     }
-
-    .gantt-label strong {
+#simulatorPage .gantt-label strong{
       font-size: 13px;
     }
-
-    .gantt-label small {
+#simulatorPage .gantt-label small{
       margin-top: 3px;
       color: var(--green-72);
       font-size: 11px;
     }
-
-    .gantt-row {
+#simulatorPage .gantt-row{
       min-height: 72px;
       position: relative;
       display: grid;
       grid-template-columns: repeat(8, 1fr);
       border-bottom: 1px solid var(--green-10);
-      background: rgba(246, 241, 230, 0.68);
+      background: rgba(242, 246, 255, 0.68);
     }
-
-    .gantt-cell {
+#simulatorPage .gantt-cell{
       border-left: 1px solid var(--green-10);
     }
-
-    .gantt-bar {
+#simulatorPage .gantt-bar{
       position: absolute;
       top: 18px;
       height: 36px;
@@ -722,10 +674,9 @@
       font-weight: 700;
       overflow: hidden;
       white-space: nowrap;
-      box-shadow: 0 7px 18px rgba(18, 61, 50, 0.14);
+      box-shadow: 0 7px 18px rgba(10, 36, 75, 0.14);
     }
-
-    .gantt-bar::before {
+#simulatorPage .gantt-bar::before{
       content: "";
       position: absolute;
       left: 0;
@@ -735,47 +686,36 @@
       background: var(--gold);
       opacity: 0.88;
     }
-
-    .gantt-bar span {
+#simulatorPage .gantt-bar span{
       position: relative;
       z-index: 1;
       mix-blend-mode: normal;
       color: var(--ivory);
-      text-shadow: 0 1px 3px rgba(18, 61, 50, 0.4);
+      text-shadow: 0 1px 3px rgba(10, 36, 75, 0.4);
     }
-
-    /* =========================================================
-       9. TEAM / RULES
-       ========================================================= */
-    .team-grid {
+#simulatorPage .team-grid{
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: 16px;
     }
-
-    .team-card {
+#simulatorPage .team-card{
       padding: 24px;
     }
-
-    .team-card h3 {
+#simulatorPage .team-card h3{
       font-size: 18px;
       letter-spacing: -0.03em;
     }
-
-    .team-card p,
-    .team-card li {
+#simulatorPage .team-card p, #simulatorPage .team-card li{
       color: var(--green-72);
       font-size: 13px;
     }
-
-    .team-card ul {
+#simulatorPage .team-card ul{
       margin-top: 14px;
       padding-left: 18px;
       display: grid;
       gap: 8px;
     }
-
-    .team-number {
+#simulatorPage .team-number{
       margin-top: 12px;
       font-size: 48px;
       line-height: 1;
@@ -784,15 +724,11 @@
       color: var(--gold);
       text-shadow: 0 1px 0 var(--green);
     }
-
-    /* =========================================================
-       10. FOOTER
-       ========================================================= */
-    footer {
+#simulatorPage footer{
       margin-top: 34px;
       border-radius: var(--radius-lg);
       background: var(--green);
-      color: rgba(246, 241, 230, 0.72);
+      color: rgba(242, 246, 255, 0.72);
       padding: 26px 28px;
       display: flex;
       justify-content: space-between;
@@ -800,157 +736,209 @@
       flex-wrap: wrap;
       font-size: 12px;
     }
-
-    footer strong {
+#simulatorPage footer strong{
       color: var(--ivory);
     }
-
-    /* =========================================================
-       11. SCROLL REVEAL EFFECT
-       ========================================================= */
-    .reveal {
+#simulatorPage .reveal{
       opacity: 0;
       transform: translateY(18px);
       transition: opacity 550ms ease, transform 550ms ease;
     }
-
-    .reveal.visible {
+#simulatorPage .reveal.visible{
       opacity: 1;
       transform: translateY(0);
     }
-
-    /* =========================================================
-       12. RESPONSIVE
-       ========================================================= */
-    @media (max-width: 1040px) {
-      .hero-grid,
-      .progress-grid {
+@media  (max-width: 1040px) {#simulatorPage .hero-grid, #simulatorPage .progress-grid{
         grid-template-columns: 1fr;
       }
-
-      .summary-grid {
+#simulatorPage .summary-grid{
         grid-template-columns: repeat(2, 1fr);
       }
-
-      .team-grid {
+#simulatorPage .team-grid{
         grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    @media (max-width: 820px) {
-      .nav-wrap {
+      }}
+@media  (max-width: 820px) {#simulatorPage .nav-wrap{
         min-height: 64px;
         padding: 0 18px;
       }
-
-      .nav-links {
+#simulatorPage .nav-links{
         display: none;
       }
-
-      .page {
+#simulatorPage .page{
         padding: 0 16px 54px;
       }
-
-      .resource-grid,
-      .team-grid {
+#simulatorPage .resource-grid, #simulatorPage .team-grid{
         grid-template-columns: 1fr;
       }
-
-      .upload-guide {
+#simulatorPage .upload-guide{
         grid-template-columns: 1fr;
       }
-
-      .section-heading {
+#simulatorPage .section-heading{
         align-items: flex-start;
         flex-direction: column;
         gap: 6px;
       }
-
-      .work-row {
+#simulatorPage .work-row{
         grid-template-columns: 110px 1fr 44px;
-      }
-    }
-
-    @media (max-width: 560px) {
-      .summary-grid {
+      }}
+@media  (max-width: 560px) {#simulatorPage .summary-grid{
         grid-template-columns: 1fr;
       }
-
-      .hero {
+#simulatorPage .hero{
         border-radius: 22px;
         padding: 30px 22px;
       }
-
-      .hero h1 {
+#simulatorPage .hero h1{
         font-size: 38px;
       }
-
-      .hero-actions,
-      .resource-actions {
+#simulatorPage .hero-actions, #simulatorPage .resource-actions{
         flex-direction: column;
       }
-
-      .btn {
+#simulatorPage .btn{
         width: 100%;
       }
-
-      .work-row {
+#simulatorPage .work-row{
         grid-template-columns: 1fr 44px;
       }
-
-      .work-track {
+#simulatorPage .work-track{
         grid-column: 1 / -1;
         grid-row: 2;
-      }
-    }
-  </style>
-<!-- === HD:META:BEGIN (자동 생성 — scripts 로 다시 굽습니다) === -->
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="canonical" href="https://aebonlee.github.io/hd-06/">
-<meta name="robots" content="index,follow">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="HD 생성형 AI 업무자동화 전문가과정">
-<meta property="og:url" content="https://aebonlee.github.io/hd-06/">
-<meta property="og:title" content="HDX/HCE 개발 계획 시뮬레이터 — 생성형 AI 업무자동화 전문가과정">
-<meta property="og:description" content="사내 개발 로드맵 엑셀을 바탕으로 개발~생산 단계별 주간 부하·부족 사유·가정 변경 전후를 분석하는 시뮬레이터 소개.">
-<meta property="og:image" content="https://aebonlee.github.io/hd-06/og-index.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:locale" content="ko_KR">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="HDX/HCE 개발 계획 시뮬레이터 — 생성형 AI 업무자동화 전문가과정">
-<meta name="twitter:description" content="사내 개발 로드맵 엑셀을 바탕으로 개발~생산 단계별 주간 부하·부족 사유·가정 변경 전후를 분석하는 시뮬레이터 소개.">
-<meta name="twitter:image" content="https://aebonlee.github.io/hd-06/og-index.png">
-<!-- === HD:META:END === -->
-</head>
+      }}
+/* 두 페이지의 기존 이름이 겹치는 부분만 국소적으로 분리 */
+#simulatorPage{background:#f5f8ff;padding-top:1px;padding-bottom:32px;}
+#simulatorPage .hero{min-height:0;isolation:auto;}
+#simulatorPage .hero::before,#simulatorPage .hero::after{box-shadow:none;border:0;z-index:auto;}
+#simulatorPage .page{padding-top:12px;}
+#simulatorPage .sim-context{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin:24px auto 0;padding:18px 22px;border:1px solid #dbe4f8;background:white;border-radius:16px;}
+#simulatorPage .sim-context strong{font-size:17px;color:#173a7c;}
+#simulatorPage .sim-context p{margin:4px 0 0;color:#6c7a91;font-size:12px;}
+#simulatorPage .sim-context a{display:inline-flex;align-items:center;background:#2855d9;color:#fff;border-radius:10px;font-weight:700;padding:11px 16px;font-size:12px;}
+#simulatorPage .sim-context a:hover{background:#153cbb;}
+.hdx-project-highlight{background:#fff;border:1px solid #e3ebfa;border-radius:24px;padding:34px 38px;display:flex;align-items:center;justify-content:space-between;gap:22px;box-shadow:0 12px 35px rgba(19,49,115,.05);}
+.hdx-project-highlight h2{font-size:26px;letter-spacing:-1.2px;color:#0d214a;margin:8px 0 10px;}
+.hdx-project-highlight p{font-size:13px;color:#677792;max-width:690px;line-height:1.9;margin:0;}
+.hdx-project-highlight .project-kicker{font-size:11px;color:#2855d9;font-weight:800;letter-spacing:1px;}
+.hdx-project-highlight .btn{flex-shrink:0;}
+@media(max-width:750px){.hdx-project-highlight{flex-direction:column;align-items:flex-start;padding:26px 22px}.hdx-project-highlight .btn{width:100%}}
 
+  </style>
+</head>
 <body>
-  <!-- =========================================================
-       고정 상단 메뉴: 각 섹션으로 바로 이동합니다.
-       ========================================================= -->
-  <header class="topbar">
-    <nav class="nav-wrap" aria-label="프로젝트 대시보드 메뉴">
-      <a href="#home" class="brand" aria-label="HDX/HCE 개발 계획 시뮬레이터 홈">
+  <svg aria-hidden="true" class="screenreader" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-up-right" viewBox="0 0 24 24"><path d="M6 18 18 6M7 6h11v11"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/><path d="M8 7h8m-8 4h6"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm13 10v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 2 2.3 7.7L22 12l-7.7 2.3L12 22l-2.3-7.7L2 12l7.7-2.3L12 2Z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-login" viewBox="0 0 24 24"><path d="M10 17l5-5-5-5m5 5H3m9-9h6a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3h-6"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M5 17v4h14v-4"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9M4 16l11-11 4 4L8 20H4v-4ZM17 3l4 4"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18m-2 0-1 14H6L5 6m3 0V4h8v2m-6 4v7m4-7v7"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-log-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"/></symbol>
+  </svg>
+
+  <header class="header">
+    <div class="container header-row">
+      <a class="brand" href="#home" aria-label="홍보실 프로젝트 홈">
         <span class="brand-mark">HD</span>
-        <span>HDX/HCE SIMULATOR</span>
+        <span class="brand-text"><strong>HDX/HCE 프로젝트</strong><small>PROMOTION PROJECT HUB</small></span>
       </a>
-      <div class="nav-links">
-        <a class="nav-link active" href="#home">개요</a>
-        <a class="nav-link" href="#resources">데이터·기능</a>
-        <a class="nav-link" href="#progress">검증 현황</a>
-        <a class="nav-link" href="#schedule">처리 흐름</a>
-        <a class="nav-link" href="#team">분석 규칙</a>
-      </div>
-    </nav>
+      <button type="button" id="mobileMenu" class="mobile-menu" aria-label="메뉴 열기" aria-expanded="false"><svg class="ico"><use href="#i-menu"/></svg></button>
+      <nav id="mainNav" class="nav" aria-label="주 메뉴">
+        <a href="#home" data-nav="home">프로젝트 소개</a>
+        <a href="#simulator" data-nav="simulator">HDX/HCE 현황</a>
+        <a href="#board/notice" data-nav="notice">공지사항</a>
+        <a href="#board/webzine" data-nav="webzine">자유게시판</a>
+        <a href="#board/library" data-nav="library">자료실</a>
+        <a href="#board/gallery" data-nav="gallery">갤러리</a>
+      </nav>
+      <div class="header-actions" id="headerAuth"><button type="button" class="btn btn-dark btn-small" data-action="auth" data-mode="login">로그인 <svg class="ico"><use href="#i-arrow"/></svg></button></div>
+    </div>
   </header>
 
-  <main class="page">
+  <main id="homePage">
+    <section class="hero" aria-labelledby="heroHeading">
+      <canvas id="heroCanvas" aria-hidden="true"></canvas>
+      <div class="container hero-content">
+        <div class="hero-info">
+          <div class="eyebrow"><span class="dot"></span> HDX / HCE · DEVELOPMENT PLAN SIMULATOR</div>
+          <h1 id="heroHeading">HDX/HCE 프로젝트<br/><em>함께 만드는 개발 혁신</em></h1>
+          <p class="hero-lead">엑셀 기반 개발 로드맵의 주간 업무 부하를 예측하고, 인력 부족 구간과 가정 변경 전후를 비교하는 개발 계획 시뮬레이터 프로젝트예요.<br/>홍보실과 임직원이 소식과 자료를 나누고 함께 참여하는 공간입니다.</p>
+          <div class="hero-buttons">
+            <button class="btn btn-white" data-action="participate">프로젝트 참여하기 <svg class="ico"><use href="#i-arrow"/></svg></button>
+            <a class="btn btn-outline-light" href="#simulator">프로젝트 현황 보기 <svg class="ico"><use href="#i-up-right"/></svg></a>
+          </div>
+          <div class="hero-note"><svg class="ico"><use href="#i-shield"/></svg> 회원가입 후 게시판과 프로젝트 자료를 이용할 수 있어요.</div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="hero-orbit orbit2"></div><div class="hero-orbit"></div>
+          <div class="hero-core"><div class="core-icon"><svg class="ico"><use href="#i-spark"/></svg></div><strong>HDX / HCE</strong><small>PROJECT TOGETHER</small></div>
+          <div class="floating-panel float-1"><div class="panel-top">01 / CONNECT</div><strong>로드맵 분석</strong><p>부문별 주간 업무 부하</p></div>
+          <div class="floating-panel float-2"><div class="panel-top">02 / CREATE</div><strong>가정 전후 비교</strong><p>인원과 일정 시나리오</p></div>
+        </div>
+      </div>
+      <div class="hero-bottomline"><div class="container"><strong>EXPLORE THE HUB</strong><span><svg class="ico"><use href="#i-bell"/></svg> 공지사항</span><span><svg class="ico"><use href="#i-book"/></svg> 자유게시판</span><span><svg class="ico"><use href="#i-folder"/></svg> 자료실</span><span><svg class="ico"><use href="#i-image"/></svg> 갤러리</span></div></div>
+    </section>
+
+
+    <section class="section" id="projectSummary" style="padding:70px 0 20px">
+      <div class="container"><div class="hdx-project-highlight">
+        <div><div class="project-kicker">FEATURED PROJECT · 2026 / v1.0</div>
+        <h2>HDX/HCE 개발 계획 시뮬레이터</h2>
+        <p>로드맵·부하기준·가용인력 3개 시트를 입력해 부문별 주간 부하를 분석하고, 일정·기간·인원·부하기준의 4가지 가정 변화를 적용해 5개 결과 시트로 내보내는 프로젝트예요. 원본에 기록된 계산 규칙 테스트 42개와 화면 테스트 10개의 검증 현황도 확인할 수 있어요.</p></div>
+        <a class="btn btn-blue" href="#simulator">기존 프로젝트 대시보드 보기 ↗</a>
+      </div></div>
+    </section>
+
+    <section class="section" id="discover">
+      <div class="container">
+        <div class="section-top"><div><div class="section-kicker">OUR PLATFORM</div><h2>함께 만드는 네 가지 공간</h2><p class="section-desc">프로젝트의 소식부터 사람들의 이야기, 공유 자료까지 한곳에서 만나보세요.</p></div></div>
+        <div class="feature-grid">
+          <article class="feature" tabindex="0" role="link" data-route="#board/notice"><span class="feature-number">01</span><div class="feature-icon"><svg class="ico"><use href="#i-bell"/></svg></div><h3>공지사항</h3><p>프로젝트 주요 일정과<br/>중요한 안내를 확인하세요.</p><div class="feature-arrow"><svg class="ico"><use href="#i-arrow"/></svg></div></article>
+          <article class="feature" tabindex="0" role="link" data-route="#board/webzine"><span class="feature-number">02</span><div class="feature-icon"><svg class="ico"><use href="#i-book"/></svg></div><h3>자유게시판</h3><p>아이디어와 경험을 나누는<br/>웹진형 소통 공간이에요.</p><div class="feature-arrow"><svg class="ico"><use href="#i-arrow"/></svg></div></article>
+          <article class="feature" tabindex="0" role="link" data-route="#board/library"><span class="feature-number">03</span><div class="feature-icon"><svg class="ico"><use href="#i-folder"/></svg></div><h3>자료실</h3><p>프로젝트 문서와 파일을<br/>쉽게 업로드하고 공유하세요.</p><div class="feature-arrow"><svg class="ico"><use href="#i-arrow"/></svg></div></article>
+          <article class="feature" tabindex="0" role="link" data-route="#board/gallery"><span class="feature-number">04</span><div class="feature-icon"><svg class="ico"><use href="#i-image"/></svg></div><h3>갤러리</h3><p>프로젝트 현장과 순간을<br/>사진으로 기록해 보세요.</p><div class="feature-arrow"><svg class="ico"><use href="#i-arrow"/></svg></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container manifest">
+        <div class="manifest-art" aria-hidden="true"><span class="art-tag a">INSPIRE</span><div class="manifest-logo"><svg class="ico"><use href="#i-spark"/></svg></div><span class="art-tag b">COLLABORATE</span></div>
+        <div><div class="section-kicker">ABOUT OUR PROJECT</div><h2>작은 참여가 모여<br/>새로운 이야기가 됩니다.</h2><p class="manifest-copy">이곳은 홍보실이 운영하는 HDX/HCE 개발 계획 시뮬레이터 프로젝트의 온라인 거점이에요. 공지와 자료를 빠르게 확인하고, 자유롭게 의견을 공유하며, 진행 과정을 사진과 이야기로 남길 수 있어요.</p><div class="mini-values"><div class="mini-value"><svg class="ico"><use href="#i-check"/></svg> 정보는 투명하게, 소통은 자유롭게</div><div class="mini-value"><svg class="ico"><use href="#i-check"/></svg> 프로젝트 관련 자료는 한곳에</div><div class="mini-value"><svg class="ico"><use href="#i-check"/></svg> 모든 참여자의 경험을 함께 기록</div></div></div>
+      </div>
+    </section>
+
+    <section class="section" id="joinSteps">
+      <div class="container"><div class="section-kicker">HOW TO PARTICIPATE</div><h2>참여 방법은 간단해요.</h2><p class="section-desc">회원가입부터 프로젝트 참여까지 세 단계로 시작하세요.</p>
+        <div class="steps-grid"><div class="step"><span class="step-no">STEP 01</span><h3>간편 회원가입</h3><p>이메일과 비밀번호, 이름과 부서만 입력해요. 이메일 인증을 마치면 준비 완료!</p></div><div class="step"><span class="step-no">STEP 02</span><h3>프로젝트 소식 확인</h3><p>공지사항에서 일정과 참여 안내를 살펴보고 필요한 자료를 확인하세요.</p></div><div class="step"><span class="step-no">STEP 03</span><h3>직접 참여하고 공유</h3><p>자유게시판에 의견을 올리고 자료와 현장 사진을 함께 공유해요.</p></div></div>
+      </div>
+    </section>
+
+    <section class="section section-alt" style="padding-top:75px;padding-bottom:75px"><div class="container"><div class="join-banner"><div><p>LET'S BUILD SOMETHING TOGETHER</p><h2>당신의 아이디어로<br/>프로젝트의 다음 장을 열어주세요.</h2></div><button type="button" class="btn btn-white" data-action="participate">지금 참여하기 <svg class="ico"><use href="#i-arrow"/></svg></button></div></div></section>
+  </main>
+
+
+  <!-- 기존 사용자 제공 index(1).html의 프로젝트 대시보드 원문 콘텐츠를 보존한 화면 -->
+  <main id="simulatorPage" hidden>
+    <div class="page">
+      <div class="sim-context"><div><strong>HDX/HCE 개발 계획 시뮬레이터 · 기존 프로젝트 대시보드</strong><p>원본의 기획서 기반 설명, 그래프, 처리 흐름 및 실제 시뮬레이터 외부 링크를 유지했어요.</p></div><a href="#home">프로젝트 허브로 돌아가기</a></div>
+
     <!-- =======================================================
          HERO / 프로젝트 개요
          ======================================================= -->
-    <section id="home" class="hero reveal">
+    <section id="sim-home" class="hero reveal">
       <div class="hero-grid">
         <div>
           <span class="eyebrow">Development Plan Simulator · v1.0</span>
@@ -961,7 +949,7 @@
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary" target="_blank" rel="noopener" href="https://aebonlee.github.io/build-2611-01/">시뮬레이터 실행 ↗</a>
-            <a class="btn btn-secondary" href="#resources">핵심 기능 살펴보기 ↓</a>
+            <a class="btn btn-secondary" href="#sim-resources">핵심 기능 살펴보기 ↓</a>
           </div>
         </div>
 
@@ -1009,7 +997,7 @@
     <!-- =======================================================
          분석 목적 및 입출력 데이터
          ======================================================= -->
-    <section id="resources" class="section-block reveal">
+    <section id="sim-resources" class="section-block reveal">
       <div class="section-heading">
         <div>
           <span class="eyebrow">Purpose &amp; Data</span>
@@ -1045,7 +1033,7 @@
           </p>
           <div class="folder-path">결과 시트: 주간부하 · 부족구간_사유 · 가정목록 · 전후비교 · 가정후_주간부하</div>
           <div class="resource-actions">
-            <a class="btn btn-secondary" href="#schedule">분석 처리 흐름 보기 ↓</a>
+            <a class="btn btn-secondary" href="#sim-schedule">분석 처리 흐름 보기 ↓</a>
             <button class="btn btn-ghost" type="button" id="copyFolderLink">시뮬레이터 링크 복사</button>
           </div>
         </article>
@@ -1077,7 +1065,7 @@
     <!-- =======================================================
          진행률 그래프
          ======================================================= -->
-    <section id="progress" class="section-block reveal">
+    <section id="sim-progress" class="section-block reveal">
       <div class="section-heading">
         <div>
           <span class="eyebrow">Validation &amp; Coverage</span>
@@ -1110,7 +1098,7 @@
     <!-- =======================================================
          GANTT
          ======================================================= -->
-    <section id="schedule" class="section-block reveal">
+    <section id="sim-schedule" class="section-block reveal">
       <div class="section-heading">
         <div>
           <span class="eyebrow">Analysis Pipeline</span>
@@ -1136,7 +1124,7 @@
     <!-- =======================================================
          TEAM GUIDE
          ======================================================= -->
-    <section id="team" class="section-block reveal">
+    <section id="sim-team" class="section-block reveal">
       <div class="section-heading">
         <div>
           <span class="eyebrow">Rules &amp; Scope</span>
@@ -1179,9 +1167,326 @@
       <div><strong>HDX/HCE 개발 계획 시뮬레이터 프로젝트</strong><br>생성형 AI 업무자동화 전문가과정 · 2차수 · 기획서 v1.0 (2026-11-02)</div>
       <div>Last rendered: <span id="renderedAt">-</span></div>
     </footer>
+  
+    </div>
   </main>
 
+  <main id="boardPage" hidden>
+    <section class="page-head"><div class="container page-head-inner"><div class="tagline" id="boardEyebrow">PROJECT BOARD</div><h1 id="boardHeading">공지사항</h1><p id="boardDescription">프로젝트 주요 소식을 확인해 보세요.</p></div></section>
+    <section class="container board-wrap"><div id="boardGate" hidden></div><div id="boardContent" hidden><div class="board-toolbar"><div class="board-total" id="boardTotal">게시물</div><div class="toolbar-actions"><label class="searchbox"><svg class="ico"><use href="#i-search"/></svg><input type="search" id="boardSearch" placeholder="제목 또는 내용 검색" aria-label="게시물 검색"></label><button id="writeButton" class="btn btn-blue btn-small" data-action="compose"><svg class="ico"><use href="#i-plus"/></svg> 글쓰기</button></div></div><div id="postsContainer" aria-live="polite"></div></div></section>
+  </main>
+
+  <footer class="footer"><div class="container"><div class="footer-top"><div><a href="#home" class="brand"><span class="brand-mark">HD</span><span class="brand-text"><strong>HDX/HCE 프로젝트</strong><small>PROMOTION PROJECT HUB</small></span></a><div class="footer-desc">아이디어를 연결하고, 소식을 공유하며, 함께 성장하는 사내 프로젝트 플랫폼.</div></div><div class="footer-links"><a href="#home">프로젝트 소개</a><a href="#simulator">HDX/HCE 현황</a><a href="#board/notice">공지사항</a><a href="#board/webzine">자유게시판</a><a href="#board/library">자료실</a><a href="#board/gallery">갤러리</a></div></div><div class="footer-bottom"><span>© <span id="copyrightYear"></span> HDX/HCE PROJECT · PROMOTION OFFICE. All rights reserved.</span><span>Powered by Supabase · Site namespace: hdxhce_</span></div></div></footer>
+
+  <dialog class="modal" id="authDialog" aria-labelledby="authTitle"><div class="modal-head"><div><h2 id="authTitle">로그인</h2><p id="authSubtitle">프로젝트 허브에 오신 것을 환영해요.</p></div><button class="modal-close" data-close="authDialog" aria-label="닫기"><svg class="ico"><use href="#i-close"/></svg></button></div><div class="modal-content"><div id="authError" class="form-error" role="alert"></div><form id="authForm"><div class="field-group" id="signupNameGroup" hidden><label for="signupName">이름 *</label><input id="signupName" class="field" type="text" maxlength="50" autocomplete="name" placeholder="홍길동"/></div><div class="field-group" id="signupDeptGroup" hidden><label for="signupDept">소속 부서</label><input id="signupDept" class="field" type="text" maxlength="80" placeholder="예: 홍보실"/></div><div class="field-group"><label for="authEmail">이메일 *</label><input id="authEmail" class="field" type="email" autocomplete="email" required placeholder="name@company.co.kr" /></div><div class="field-group"><label for="authPassword">비밀번호 *</label><input id="authPassword" class="field" type="password" autocomplete="current-password" required minlength="6" placeholder="6자 이상 입력" /></div><button id="authSubmit" type="submit" class="btn btn-blue form-submit">로그인 <svg class="ico"><use href="#i-arrow"/></svg></button></form><div class="form-switch" id="authSwitch">계정이 없으신가요? <button type="button" class="text-button" data-action="auth" data-mode="signup">회원가입</button></div></div></dialog>
+
+  <dialog class="modal" id="joinDialog" aria-labelledby="joinTitle"><div class="modal-head"><div><h2 id="joinTitle">프로젝트 참여 신청</h2><p>프로젝트 사이트의 회원 정보를 등록해요.</p></div><button class="modal-close" data-close="joinDialog" aria-label="닫기"><svg class="ico"><use href="#i-close"/></svg></button></div><div class="modal-content"><div id="joinError" class="form-error" role="alert"></div><form id="joinForm"><div class="field-group"><label for="joinName">이름 *</label><input id="joinName" type="text" class="field" required minlength="2" maxlength="50"/></div><div class="field-group"><label for="joinDepartment">소속 부서</label><input id="joinDepartment" type="text" class="field" maxlength="80"/></div><button type="submit" class="btn btn-blue form-submit" id="joinSubmit">프로젝트에 참여하기</button><p class="form-hint">회사 이메일 도메인 제한 여부는 사이트 운영자의 설정에 따라 달라질 수 있어요.</p></form></div></dialog>
+
+  <dialog class="modal modal-wide" id="composeDialog" aria-labelledby="composeTitle"><div class="modal-head"><div><h2 id="composeTitle">새 글 작성</h2><p id="composeDescription">프로젝트의 이야기를 공유해 주세요.</p></div><button class="modal-close" data-close="composeDialog" aria-label="닫기"><svg class="ico"><use href="#i-close"/></svg></button></div><div class="modal-content"><div id="composeError" class="form-error" role="alert"></div><form id="composeForm"><div class="field-group"><label for="postTitle">제목 *</label><input id="postTitle" class="field" required minlength="2" maxlength="150" placeholder="제목을 입력해 주세요"/></div><div class="field-group" id="summaryGroup"><label for="postSummary">요약 (선택)</label><input id="postSummary" class="field" maxlength="400" placeholder="카드에 표시할 짧은 소개"/></div><div class="field-group"><label for="postContent">내용</label><textarea id="postContent" class="field" placeholder="함께 나누고 싶은 내용을 작성해 주세요."></textarea><div class="form-hint">안전을 위해 HTML 코드는 실행되지 않고 일반 글자로 표시돼요.</div></div><div class="field-group" id="coverGroup" hidden><label for="postCover">대표 이미지 <span id="coverRequiredText"></span></label><input id="postCover" class="file-input" type="file" accept="image/*"/><div class="form-hint">JPG, PNG, GIF, WebP 등 이미지 · 파일당 최대 20MB</div></div><div class="field-group" id="filesGroup" hidden><label for="postFiles">첨부파일 (선택, 한 번에 최대 3개)</label><input id="postFiles" class="file-input" type="file" multiple/><div class="form-hint">PDF, 문서, 압축 파일 등 · 파일당 최대 20MB · 기존 글 수정 시 파일 추가 가능</div></div><div class="modal-actions"><button type="button" class="btn btn-ghost" data-close="composeDialog">취소</button><button type="submit" class="btn btn-blue" id="composeSubmit">게시하기 <svg class="ico"><use href="#i-arrow"/></svg></button></div></form></div></dialog>
+
+  <dialog class="modal detail-modal" id="detailDialog" aria-labelledby="detailTitle"><div id="detailInner"></div></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Supabase JS v2 is the only application script dependency; CSS, UI, and logic are in this HTML. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script>
+  'use strict';
+  const SUPABASE_URL = 'https://gbcfzqvkqhzjesmvhovw.supabase.co';
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_Z0KXESDK9vaI8hFFbJZ7YQ_OWJ4wpW1';
+  const PREFIX = 'hdxhce_'; // 다른 사이트와 구분되는 이 사이트 전용 접두어
+  const MEMBERS = PREFIX + 'members', POSTS = PREFIX + 'posts', FILES = PREFIX + 'post_files';
+  const BUCKET = 'hdxhce-assets';
+  const BOARD_META = {
+    notice: {name:'공지사항',en:'NOTICE & ANNOUNCEMENT',desc:'프로젝트 일정, 주요 소식과 꼭 알아야 할 안내를 확인하세요.', icon:'bell'},
+    webzine: {name:'자유게시판',en:'STORIES & IDEAS',desc:'아이디어와 경험을 이미지와 이야기로 나누는 웹진형 게시판이에요.', icon:'book'},
+    library: {name:'자료실',en:'RESOURCES & DOWNLOAD',desc:'프로젝트 관련 문서, 발표 자료, 참고 파일을 공유하세요.', icon:'folder'},
+    gallery: {name:'갤러리',en:'PHOTO GALLERY',desc:'프로젝트 현장과 함께한 순간을 사진으로 기록해요.', icon:'image'}
+  };
+  const $ = (selector) => document.querySelector(selector);
+  const icon = (name) => `<svg class="ico" aria-hidden="true"><use href="#i-${name}"></use></svg>`;
+  const esc = (value) => String(value ?? '').replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+  const formatDate = (iso) => iso ? new Date(iso).toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'}) : '';
+  const prettySize = bytes => bytes < 1024 ? `${bytes} B` : bytes < 1048576 ? `${(bytes/1024).toFixed(1)} KB` : `${(bytes/1048576).toFixed(1)} MB`;
+  let client = null, currentUser = null, member = null, currentBoard = 'notice', activePosts = [], editingPost = null;
+  let currentLoadId = 0, authMode = 'login', signedCache = new Map(), toastTimer = null, initialized = false;
+  const toast = (msg,isError=false) => { const el=$('#toast');el.textContent=msg;el.className=`toast show${isError?' error':''}`;clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),4800); };
+  const errorText = (e) => {
+    const s = String(e?.message || e || '알 수 없는 오류');
+    if (s.includes('Invalid login credentials')) return '이메일 또는 비밀번호를 확인해 주세요.';
+    if (s.includes('Email not confirmed')) return '이메일 인증 후 로그인해 주세요.';
+    if (s.includes('User already registered')) return '이미 가입된 이메일이에요. 로그인해 주세요.';
+    if (s.includes('row-level security') || s.includes('permission denied')) return '등록 권한이 없어요. 회사 이메일 인증, 허용 도메인(hdxhce_config), 관리자 권한과 SQL 설정을 확인해 주세요.';
+    if (s.includes('Failed to fetch') || s.includes('NetworkError')) return '네트워크 연결을 확인해 주세요.';
+    return s;
+  };
+  const throwIfError = response => { if(response.error) throw response.error; return response.data; };
+  const cleanFileName = (name) => name.replace(/[^\w.\-가-힣]/g,'_').slice(-85) || 'upload';
+  function canWrite(board) { return !!member && (board !== 'notice' || member.role === 'admin'); }
+  function canEdit(post) { return !!member && !!currentUser && (member.role === 'admin' || post.author_id === currentUser.id); }
+  function setBusy(button, busy, idleText) { button.disabled=busy;button.textContent=busy?'처리 중...':idleText; }
+  async function signedUrl(path) {
+    if(!path || !client) return '';
+    const cached=signedCache.get(path);if(cached && cached.exp>Date.now()+60000) return cached.url;
+    const {data,error}=await client.storage.from(BUCKET).createSignedUrl(path,3600);
+    if(error) { console.warn('Image signed URL:',error.message);return ''; }
+    signedCache.set(path,{url:data.signedUrl,exp:Date.now()+3500000});return data.signedUrl;
+  }
+  async function uploadAsset(file) {
+    if(file.size>20971520) throw new Error(`'${file.name}' 파일은 20MB를 초과해요.`);
+    const path = `${currentUser.id}/${Date.now()}_${crypto.randomUUID()}_${cleanFileName(file.name)}`;
+    const {error}=await client.storage.from(BUCKET).upload(path,file,{upsert:false,contentType:file.type||'application/octet-stream'});
+    if(error) throw error;
+    return path;
+  }
+  function showDialog(id) {const dialog=$('#'+id);if(dialog && !dialog.open) dialog.showModal();}
+  function closeDialog(id) {const dialog=$('#'+id);if(dialog?.open) dialog.close();}
+  function showAuth(mode='login') {
+    authMode=mode;
+    const signup=mode==='signup';
+    $('#authTitle').textContent=signup?'간편 회원가입':'로그인';
+    $('#authSubtitle').textContent=signup?'몇 가지 정보만 입력하면 시작할 수 있어요.':'프로젝트 허브에 오신 것을 환영해요.';
+    $('#signupNameGroup').hidden=!signup;$('#signupDeptGroup').hidden=!signup;
+    $('#signupName').required=signup;
+    $('#authPassword').autocomplete=signup?'new-password':'current-password';
+    $('#authSubmit').innerHTML=signup?`회원가입 ${icon('arrow')}`:`로그인 ${icon('arrow')}`;
+    $('#authSwitch').innerHTML=signup?'이미 계정이 있으신가요? <button type="button" class="text-button" data-action="auth" data-mode="login">로그인</button>':'계정이 없으신가요? <button type="button" class="text-button" data-action="auth" data-mode="signup">회원가입</button>';
+    $('#authError').textContent='';showDialog('authDialog');
+  }
+  function openJoin() {$('#joinError').textContent='';$('#joinName').value=member?.display_name || currentUser?.user_metadata?.hdxhce_name || currentUser?.user_metadata?.full_name || '';$('#joinDepartment').value=member?.department || currentUser?.user_metadata?.hdxhce_department || '';showDialog('joinDialog');}
+  function updateHeader() {
+    if(currentUser && member){
+      $('#headerAuth').innerHTML=`<button type="button" class="profile-pill" data-action="profile" title="회원정보 수정">${icon('users')} ${esc(member.display_name)}${member.role==='admin'?' · 관리자':''}</button><button class="btn btn-ghost btn-small" data-action="logout" type="button" title="로그아웃">${icon('log-out')}</button>`;
+    }else if(currentUser){
+      $('#headerAuth').innerHTML=`<button type="button" class="profile-pill" data-action="join">${icon('users')} 참여 등록</button><button class="btn btn-ghost btn-small" data-action="logout" type="button" title="로그아웃">${icon('log-out')}</button>`;
+    }else{
+      $('#headerAuth').innerHTML=`<button type="button" class="btn btn-dark btn-small" data-action="auth" data-mode="login">로그인 ${icon('arrow')}</button>`;
+    }
+  }
+  async function syncMember(autoJoin=false) {
+    if(!client)return;
+    try {
+      const {data:{user},error}=await client.auth.getUser();if(error && error.name!=='AuthSessionMissingError') console.warn(error.message);
+      currentUser=user || null;member=null;
+      if(currentUser){
+        const result=await client.from(MEMBERS).select('user_id,display_name,department,role').eq('user_id',currentUser.id).maybeSingle();
+        if(result.error) throw result.error;
+        member=result.data || null;
+        if(!member && autoJoin && currentUser.user_metadata?.hdxhce_join && currentUser.user_metadata?.hdxhce_name){
+          const join=await client.from(MEMBERS).insert({user_id:currentUser.id,display_name:currentUser.user_metadata.hdxhce_name,department:currentUser.user_metadata.hdxhce_department||''});
+          if(join.error) toast('프로젝트 등록이 필요해요: '+errorText(join.error),true);
+          else {const again=await client.from(MEMBERS).select('user_id,display_name,department,role').eq('user_id',currentUser.id).single();if(!again.error)member=again.data;}
+        }
+      }
+    }catch(err){console.error(err);toast('회원 정보 확인 실패: '+errorText(err),true);}
+    updateHeader();await renderRoute();
+  }
+  async function handleAuth(event) {
+    event.preventDefault();if(!client){toast('Supabase SDK가 로드되지 않았어요.',true);return;}
+    const button=$('#authSubmit');const idle=authMode==='signup'?'회원가입':'로그인';
+    const email=$('#authEmail').value.trim(),password=$('#authPassword').value;
+    const name=$('#signupName').value.trim(),dept=$('#signupDept').value.trim();
+    $('#authError').textContent='';if(authMode==='signup' && name.length<2){$('#authError').textContent='이름을 두 글자 이상 입력해 주세요.';return;}
+    setBusy(button,true,idle);
+    try{
+      if(authMode==='signup') {
+        const result=await client.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname+'#home',data:{hdxhce_name:name,hdxhce_department:dept,hdxhce_join:true}}});
+        throwIfError(result);
+        $('#authPassword').value='';closeDialog('authDialog');
+        if(result.data?.session){toast('회원가입이 완료되었어요. 프로젝트 참여를 시작해 보세요.');await syncMember(true);}
+        else toast('인증 이메일을 발송했어요. 메일을 확인한 뒤 로그인해 주세요.');
+      }else{
+        const result=await client.auth.signInWithPassword({email,password});throwIfError(result);
+        $('#authPassword').value='';closeDialog('authDialog');
+        await syncMember(true);toast('로그인했어요. 반가워요!');
+      }
+    }catch(err){$('#authError').textContent=errorText(err);}
+    finally{setBusy(button,false,idle);}
+  }
+  async function handleJoin(event){
+    event.preventDefault();if(!currentUser)return showAuth('login');
+    const name=$('#joinName').value.trim(),department=$('#joinDepartment').value.trim(),button=$('#joinSubmit');
+    if(name.length<2){$('#joinError').textContent='이름은 2글자 이상 입력해 주세요.';return;}
+    setBusy(button,true,'프로젝트에 참여하기');$('#joinError').textContent='';
+    try{
+      const result=member ? await client.from(MEMBERS).update({display_name:name,department}).eq('user_id',currentUser.id)
+        : await client.from(MEMBERS).insert({user_id:currentUser.id,display_name:name,department});
+      throwIfError(result);closeDialog('joinDialog');toast(member?'회원 정보를 수정했어요.':'프로젝트 참여 등록이 완료되었어요!');await syncMember();
+    }catch(err){$('#joinError').textContent=errorText(err);}finally{setBusy(button,false,'프로젝트에 참여하기');}
+  }
+  function routeParts(){const h=(location.hash||'#home').replace(/^#/,'');return h.startsWith('board/')?['board',h.split('/')[1]]:(h==='simulator'||h.startsWith('sim-'))?['simulator']:['home'];}
+  function updateActiveNav(route,board){document.querySelectorAll('[data-nav]').forEach(el=>el.classList.toggle('active',el.dataset.nav===(route==='board'?board:route)));}
+  async function renderRoute(){
+    const [route,board]=routeParts();const isSimulator=route==='simulator';const isHome=route==='home'||(route==='board'&&!BOARD_META[board]);
+    $('#homePage').hidden=!isHome;$('#simulatorPage').hidden=!isSimulator;$('#boardPage').hidden=isHome||isSimulator;
+    updateActiveNav(isHome?'home':isSimulator?'simulator':'board',board);
+    if(isHome||isSimulator)return;
+    currentBoard=board;const meta=BOARD_META[board];
+    $('#boardEyebrow').textContent=meta.en;$('#boardHeading').textContent=meta.name;$('#boardDescription').textContent=meta.desc;
+    $('#boardSearch').value='';
+    $('#boardGate').hidden=!!member;$('#boardContent').hidden=!member;
+    if(!member){
+      $('#boardGate').innerHTML=`<div class="gate"><div class="gate-icon">${icon('lock')}</div><h2>프로젝트 멤버 전용 공간이에요.</h2><p>${currentUser?'회원 등록을 완료하면 게시판과 자료를 이용할 수 있어요.':'로그인하거나 회원가입한 후 프로젝트 소식과 공유 자료를 만나보세요.'}</p><button type="button" class="btn btn-blue" data-action="${currentUser?'join':'auth'}" data-mode="signup">${currentUser?'프로젝트 참여 등록':'회원가입하고 참여하기'} ${icon('arrow')}</button></div>`;
+      return;
+    }
+    $('#writeButton').hidden=!canWrite(board);
+    $('#boardTotal').innerHTML='게시물 불러오는 중...';
+    $('#postsContainer').innerHTML=`<div class="loading"><div class="spinner"></div>게시물을 불러오고 있어요.</div>`;
+    await loadPosts(board);
+  }
+  async function loadPosts(board){
+    if(!client || !member)return;
+    const requestId=++currentLoadId;
+    try{
+      const {data,error}=await client.from(POSTS).select('id,board_type,author_id,title,summary,content,cover_path,created_at,updated_at,author:hdxhce_members!hdxhce_posts_author_id_fkey(display_name,department),files:hdxhce_post_files(id,object_path,display_name,mime_type,bytes)').eq('board_type',board).order('created_at',{ascending:false}).limit(120);
+      if(error)throw error;
+      if(requestId!==currentLoadId || currentBoard!==board || $('#boardPage').hidden)return;
+      activePosts=data||[];
+      $('#boardTotal').innerHTML=`전체 <strong>${activePosts.length}</strong>개${activePosts.length===120?' · 최근 120건 표시':''}`;
+      await renderPostList();
+    }catch(err){console.error(err);$('#postsContainer').innerHTML=`<div class="empty"><h3>게시물을 불러오지 못했어요.</h3><p>${esc(errorText(err))}</p></div>`;}
+  }
+  async function renderPostList(){
+    const board=currentBoard, term=$('#boardSearch').value.toLocaleLowerCase('ko').trim();
+    const posts=activePosts.filter(p=>!term || `${p.title} ${p.summary} ${p.content} ${p.author?.display_name||''}`.toLocaleLowerCase('ko').includes(term));
+    const el=$('#postsContainer');
+    if(!posts.length){el.innerHTML=`<div class="empty">${icon(BOARD_META[board].icon)}<h3>${term?'검색 결과가 없어요.':'아직 등록된 게시물이 없어요.'}</h3><p>${term?'다른 검색어를 입력해 보세요.':'첫 번째 이야기를 기다리고 있어요.'}</p></div>`;return;}
+    const covers=await Promise.all(posts.map(p=>p.cover_path?signedUrl(p.cover_path):Promise.resolve('')));
+    if(board==='notice'||board==='library'){
+      el.innerHTML=`<div class="post-list">${posts.map((p,i)=>`<article class="post-row" data-action="post" data-id="${esc(p.id)}" tabindex="0" role="button" aria-label="${esc(p.title)} 게시물 보기"><div class="post-num">${String(posts.length-i).padStart(2,'0')}</div><div><h3>${esc(p.title)}</h3><p>${esc(p.summary||p.content||((p.files||[]).length?`첨부파일 ${p.files.length}개`:'내용을 확인해 보세요.'))}</p></div><div class="author">${esc(p.author?.display_name||'참여자')}</div><div class="date">${esc(formatDate(p.created_at))}</div></article>`).join('')}</div>`;
+    }else if(board==='webzine'){
+      el.innerHTML=`<div class="webzine-grid">${posts.map((p,i)=>`<article class="webzine-card" data-action="post" data-id="${esc(p.id)}" tabindex="0" role="button"><div class="card-thumb">${covers[i]?`<img src="${esc(covers[i])}" alt="${esc(p.title)}" loading="lazy">`:`<div class="thumb-fallback">${icon('book')}</div>`}</div><div class="card-body"><div class="meta">STORY · ${esc(formatDate(p.created_at))}</div><h3>${esc(p.title)}</h3><p>${esc(p.summary||p.content||'함께하는 프로젝트 이야기')}</p><div class="card-cardfoot"><span>${esc(p.author?.display_name||'참여자')}</span><span>자세히 보기 ${icon('chevron')}</span></div></div></article>`).join('')}</div>`;
+    }else{
+      el.innerHTML=`<div class="gallery-grid">${posts.map((p,i)=>`<article class="gallery-card" data-action="post" data-id="${esc(p.id)}" tabindex="0" role="button"><div class="card-thumb">${covers[i]?`<img src="${esc(covers[i])}" alt="${esc(p.title)}" loading="lazy">`:`<div class="thumb-fallback">${icon('image')}</div>`}</div><div class="card-body"><h3>${esc(p.title)}</h3><div class="card-cardfoot"><span>${esc(p.author?.display_name||'참여자')}</span><span>${esc(formatDate(p.created_at))}</span></div></div></article>`).join('')}</div>`;
+    }
+  }
+  async function openPost(id){
+    const post=activePosts.find(p=>p.id===id);if(!post)return;
+    const cover=await signedUrl(post.cover_path);
+    const attachments=(post.files||[]).map(f=>`<div class="filelink"><span class="file-name">${icon('folder')} ${esc(f.display_name)} <span style="font-size:10px;color:#9ca6b5">(${prettySize(f.bytes)})</span></span><button type="button" data-action="download" data-path="${esc(f.object_path)}">${icon('download')} 다운로드</button></div>`).join('');
+    $('#detailInner').innerHTML=`<div class="modal-head" style="padding-bottom:20px"><div class="detail-category">${esc(BOARD_META[post.board_type].en)}</div><button class="modal-close" data-close="detailDialog" aria-label="닫기">${icon('close')}</button></div>${cover?`<div class="detail-cover"><img src="${esc(cover)}" alt="${esc(post.title)}"></div>`:''}<div class="detail-body"><div class="detail-category">${esc(BOARD_META[post.board_type].name)}</div><h2 id="detailTitle">${esc(post.title)}</h2><div class="detail-meta"><span>${esc(post.author?.display_name||'참여자')}${post.author?.department?' · '+esc(post.author.department):''}</span><span>${esc(formatDate(post.created_at))}</span></div><div class="detail-copy">${esc(post.content||post.summary||'내용이 등록되지 않았어요.')}</div>${attachments?`<div class="detail-attachments"><h3>첨부파일 (${post.files.length})</h3>${attachments}</div>`:''}<div class="detail-actions">${canEdit(post)?`<button type="button" class="btn btn-ghost btn-small" data-action="delete" data-id="${esc(post.id)}">${icon('trash')} 삭제</button><button type="button" class="btn btn-blue btn-small" data-action="edit" data-id="${esc(post.id)}">${icon('edit')} 수정</button>`:''}</div></div>`;
+    showDialog('detailDialog');
+  }
+  async function downloadAsset(path){
+    const popup=window.open('about:blank','_blank');
+    try{const url=await signedUrl(path);if(!url)throw new Error('파일에 접근할 수 없어요.');if(popup)popup.location.href=url;else location.href=url;}
+    catch(err){popup?.close();toast(errorText(err),true);}
+  }
+  function showCompose(post=null){
+    if(!canWrite(post?.board_type||currentBoard)){toast('글쓰기 권한이 없어요.',true);return;}
+    editingPost=post;
+    const board=post?.board_type||currentBoard;
+    $('#composeForm').reset();$('#composeError').textContent='';
+    $('#composeTitle').textContent=post?'게시물 수정':`${BOARD_META[board].name} 글쓰기`;
+    $('#composeDescription').textContent=post?'게시물 내용을 수정할 수 있어요.':'프로젝트의 이야기를 공유해 주세요.';
+    $('#postTitle').value=post?.title||'';$('#postSummary').value=post?.summary||'';$('#postContent').value=post?.content||'';
+    $('#summaryGroup').hidden=board==='notice';
+    $('#coverGroup').hidden=!(board==='webzine'||board==='gallery');
+    $('#coverRequiredText').textContent=board==='gallery'?'(새 글은 필수)':'';
+    $('#filesGroup').hidden=board!=='library';
+    $('#composeSubmit').innerHTML=post?`수정 저장 ${icon('check')}`:`게시하기 ${icon('arrow')}`;
+    showDialog('composeDialog');
+  }
+  async function handleCompose(event){
+    event.preventDefault();if(!currentUser||!member)return;
+    const board=editingPost?.board_type||currentBoard;
+    if(!canWrite(board)){toast('글쓰기 권한이 없어요.',true);return;}
+    const title=$('#postTitle').value.trim(),summary=$('#postSummary').value.trim(),content=$('#postContent').value.trim();
+    const cover=$('#postCover').files[0],attachmentFiles=[...$('#postFiles').files];
+    const button=$('#composeSubmit');$('#composeError').textContent='';
+    if(title.length<2){$('#composeError').textContent='제목은 두 글자 이상 입력해 주세요.';return;}
+    if(board==='gallery'&&!editingPost&&!cover){$('#composeError').textContent='갤러리에는 대표 이미지를 등록해 주세요.';return;}
+    if(attachmentFiles.length>3){$('#composeError').textContent='한 번에 첨부할 수 있는 파일은 최대 3개예요.';return;}
+    const uploads=[];let saved=false;
+    setBusy(button,true,'게시하기');
+    try{
+      let coverPath=editingPost?.cover_path || null;
+      if(cover){if(!cover.type.startsWith('image/'))throw new Error('대표 이미지는 이미지 파일만 등록할 수 있어요.');coverPath=await uploadAsset(cover);uploads.push(coverPath);}
+      const prepared=[];
+      for(const file of attachmentFiles){const path=await uploadAsset(file);uploads.push(path);prepared.push({object_path:path,display_name:file.name,mime_type:file.type||'application/octet-stream',bytes:file.size});}
+      const payload={title,summary:board==='notice'?'':summary,content,cover_path:coverPath};
+      let postId;
+      if(editingPost){postId=editingPost.id;const {error}=await client.from(POSTS).update(payload).eq('id',postId);if(error)throw error;}
+      else{const result=await client.from(POSTS).insert({...payload,board_type:board,author_id:currentUser.id}).select('id').single();postId=throwIfError(result).id;}
+      saved=true;
+      if(prepared.length){const {error}=await client.from(FILES).insert(prepared.map(f=>({...f,post_id:postId})));if(error)throw error;}
+      if(cover && editingPost?.cover_path && editingPost.cover_path!==coverPath){await client.storage.from(BUCKET).remove([editingPost.cover_path]);signedCache.delete(editingPost.cover_path);}
+      closeDialog('composeDialog');closeDialog('detailDialog');toast(editingPost?'게시물을 수정했어요.':'게시물을 등록했어요.');editingPost=null;
+      await loadPosts(currentBoard);
+    }catch(err){
+      console.error(err);
+      $('#composeError').textContent=errorText(err)+(saved?' (게시물은 저장되었을 수 있어요. 목록을 확인해 주세요.)':'');
+      if(!saved && uploads.length)await client.storage.from(BUCKET).remove(uploads);
+    }finally{setBusy(button,false,editingPost?'수정 저장':'게시하기');}
+  }
+  async function deletePost(id){
+    const post=activePosts.find(p=>p.id===id);if(!post||!canEdit(post))return;
+    if(!confirm('이 게시물을 삭제할까요? 삭제한 글은 복구할 수 없어요.'))return;
+    try{
+      const {error}=await client.from(POSTS).delete().eq('id',id);if(error)throw error;
+      const paths=[post.cover_path,...(post.files||[]).map(f=>f.object_path)].filter(Boolean);
+      if(paths.length){const result=await client.storage.from(BUCKET).remove(paths);if(result.error)console.warn('Storage cleanup:',result.error.message);paths.forEach(p=>signedCache.delete(p));}
+      closeDialog('detailDialog');toast('게시물을 삭제했어요.');await loadPosts(currentBoard);
+    }catch(err){toast(errorText(err),true);}
+  }
+  function participate(){
+    if(member){location.hash='#board/notice';toast('공지사항에서 프로젝트 참여 안내를 확인해 보세요.');}
+    else if(currentUser)openJoin();
+    else showAuth('signup');
+  }
+  function initHeroCanvas(){
+    const canvas=$('#heroCanvas');const ctx=canvas.getContext('2d');if(!ctx)return;
+    const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let width=0,height=0,points=[],frame=0;
+    function resize(){const rect=canvas.getBoundingClientRect();const dpr=Math.min(window.devicePixelRatio||1,2);width=rect.width;height=rect.height;canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);points=Array.from({length:Math.max(36,Math.round(width*height/18000))},()=>({x:Math.random()*width,y:Math.random()*height,r:Math.random()*1.6+.45,vx:(Math.random()-.5)*.33,vy:(Math.random()-.5)*.28}));}
+    function draw(){if(document.hidden&&!reduce){requestAnimationFrame(draw);return;}ctx.clearRect(0,0,width,height);frame++;
+      for(let i=0;i<points.length;i++){
+        const a=points[i];if(!reduce){a.x+=a.vx;a.y+=a.vy;if(a.x<0||a.x>width)a.vx*=-1;if(a.y<0||a.y>height)a.vy*=-1;}
+        ctx.beginPath();ctx.arc(a.x,a.y,a.r,0,Math.PI*2);ctx.fillStyle='rgba(162,211,255,.39)';ctx.fill();
+        for(let j=i+1;j<points.length;j++){const b=points[j];const d=Math.hypot(a.x-b.x,a.y-b.y);if(d<125){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=`rgba(106,189,238,${(1-d/125)*.13})`;ctx.lineWidth=.7;ctx.stroke();}}
+      }
+      if(!reduce)requestAnimationFrame(draw);
+    }
+    resize();window.addEventListener('resize',resize,{passive:true});draw();
+  }
+  function initEvents(){
+    document.addEventListener('click',async e=>{
+      const closer=e.target.closest('[data-close]');if(closer){closeDialog(closer.dataset.close);return;}
+      const route=e.target.closest('[data-route]');if(route){location.hash=route.dataset.route;return;}
+      const action=e.target.closest('[data-action]');if(!action)return;
+      switch(action.dataset.action){
+        case 'auth':showAuth(action.dataset.mode||'login');break;
+        case 'participate':participate();break;
+        case 'join':openJoin();break;
+        case 'profile':openJoin();break;
+        case 'compose':showCompose();break;
+        case 'post':await openPost(action.dataset.id);break;
+        case 'edit':{const p=activePosts.find(x=>x.id===action.dataset.id);closeDialog('detailDialog');if(p)showCompose(p);break;}
+        case 'delete':await deletePost(action.dataset.id);break;
+        case 'download':await downloadAsset(action.dataset.path);break;
+        case 'logout':{try{throwIfError(await client.auth.signOut());currentUser=null;member=null;updateHeader();toast('로그아웃했어요.');await renderRoute();}catch(err){toast(errorText(err),true);}break;}
+      }
+    });
+    document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-route],[data-action="post"]')){e.preventDefault();e.target.click();}});
+    document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d)d.close();}));
+    $('#authForm').addEventListener('submit',handleAuth);$('#joinForm').addEventListener('submit',handleJoin);$('#composeForm').addEventListener('submit',handleCompose);
+    $('#boardSearch').addEventListener('input',()=>renderPostList());
+    $('#mobileMenu').addEventListener('click',()=>{const open=$('#mainNav').classList.toggle('open');$('#mobileMenu').setAttribute('aria-expanded',String(open));});
+    $('#mainNav').addEventListener('click',()=>{$('#mainNav').classList.remove('open');$('#mobileMenu').setAttribute('aria-expanded','false');});
+    window.addEventListener('hashchange',()=>{if(location.hash.startsWith('#board/')||location.hash==='#simulator'||location.hash==='#home')window.scrollTo({top:0,behavior:'instant'});renderRoute();});
+  }
+  async function main(){
+    $('#copyrightYear').textContent=new Date().getFullYear();initEvents();initHeroCanvas();
+    if(!window.supabase?.createClient){toast('Supabase 라이브러리를 불러오지 못했어요. 인터넷 연결을 확인해 주세요.',true);await renderRoute();return;}
+    try{client=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+      client.auth.onAuthStateChange((event,session)=>{if(!initialized)return;if(event==='SIGNED_IN'||event==='SIGNED_OUT'||event==='USER_UPDATED'){setTimeout(()=>syncMember(event==='SIGNED_IN'),0);}});
+      await syncMember(true);initialized=true;
+    }catch(err){console.error(err);toast('Supabase 초기화 오류: '+errorText(err),true);await renderRoute();}
+  }
+  main();
+  </script>
+  <!-- 원본 HDX/HCE 대시보드의 데이터·그래프·상호작용 JavaScript (원본 유지) -->
+  <script>
+
     /* =========================================================
        HDX/HCE DEVELOPMENT PLAN SIMULATOR DASHBOARD JAVASCRIPT
 
@@ -1299,7 +1604,7 @@
 
         // 배경 원
         ctx.beginPath();
-        ctx.strokeStyle = "rgba(18,61,50,0.10)";
+        ctx.strokeStyle = "rgba(10,36,75,0.10)";
         ctx.arc(center, center, radius, 0, Math.PI * 2);
         ctx.stroke();
 
@@ -1479,6 +1784,7 @@
 
       document.getElementById("resetAnimations").addEventListener("click", replayAnimations);
     });
+  
   </script>
 </body>
 </html>
