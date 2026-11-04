@@ -3,24 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="HD 프로젝트 협업 대시보드 - Google 문서, 공유 폴더, 일정, 진행률을 한 화면에서 관리합니다." />
-  <title>HD Project Collaboration Dashboard</title>
+  <meta name="description" content="HDX/HCE 개발 계획 시뮬레이터 프로젝트: 엑셀 로드맵 기반 부문별 주간 업무 부하 분석, 부족 사유 설명, 일정·인원 가정 전후 비교와 보고서 출력." />
+  <title>HDX/HCE 프로젝트 | 개발 계획 시뮬레이터</title>
 
   <!--
     ============================================================
-    HD PROJECT DASHBOARD
+    HDX/HCE DEVELOPMENT PLAN SIMULATOR DASHBOARD
     - GitHub Pages에 index.html 하나만 올려서 사용할 수 있는 단일 페이지입니다.
     - CSS / JavaScript를 모두 이 파일 내부에 포함했습니다.
     - 나눔고딕은 Google Fonts를 사용하며, 로딩 실패 시 시스템 고딕체로 대체됩니다.
-    - Google Drive의 직접 업로드는 정적 웹에서 OAuth/API가 필요하므로,
-      현재 버전에서는 공유 폴더를 새 탭으로 열어 업로드/다운로드하도록 설계했습니다.
+    - 이 HTML은 기획서 기반 프로젝트 소개 대시보드입니다.
+      실제 로드맵 엑셀 분석은 별도 배포된 시뮬레이터에서 실행합니다.
     ============================================================
   -->
 
   <style>
     /* =========================================================
        1. DESIGN TOKENS
-       요청 색상: 다크그린 + 골드 + 아이보리, 총 3개 중심 컬러
+       기존 색상 유지: 다크그린 + 골드 + 아이보리, 총 3개 중심 컬러
        ========================================================= */
     :root {
       --green: #123D32;
@@ -566,7 +566,7 @@
       letter-spacing: -0.05em;
     }
 
-    .donut-center span {
+    .donut-center > div > span {
       display: block;
       color: var(--green-72);
       font-size: 12px;
@@ -613,7 +613,7 @@
 
     /* =========================================================
        8. GANTT CHART
-       - JS의 projectTasks 배열을 수정하면 일정이 자동 반영됩니다.
+       - JS의 projectTasks 배열로 처리 단계 위치를 표시합니다.
        ========================================================= */
     .gantt-card {
       padding: 0;
@@ -913,15 +913,15 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="HD 생성형 AI 업무자동화 전문가과정">
 <meta property="og:url" content="https://aebonlee.github.io/hd-06/">
-<meta property="og:title" content="HD 프로젝트 협업 대시보드 — HD 생성형 AI 업무자동화 전문가과정">
-<meta property="og:description" content="진행 현황·주요 지표·작업 흐름을 한눈에 보여주는 대시보드형 웹 서비스 실습.">
+<meta property="og:title" content="HDX/HCE 개발 계획 시뮬레이터 — 생성형 AI 업무자동화 전문가과정">
+<meta property="og:description" content="사내 개발 로드맵 엑셀을 바탕으로 개발~생산 단계별 주간 부하·부족 사유·가정 변경 전후를 분석하는 시뮬레이터 소개.">
 <meta property="og:image" content="https://aebonlee.github.io/hd-06/og-index.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="HD 프로젝트 협업 대시보드 — HD 생성형 AI 업무자동화 전문가과정">
-<meta name="twitter:description" content="진행 현황·주요 지표·작업 흐름을 한눈에 보여주는 대시보드형 웹 서비스 실습.">
+<meta name="twitter:title" content="HDX/HCE 개발 계획 시뮬레이터 — 생성형 AI 업무자동화 전문가과정">
+<meta name="twitter:description" content="사내 개발 로드맵 엑셀을 바탕으로 개발~생산 단계별 주간 부하·부족 사유·가정 변경 전후를 분석하는 시뮬레이터 소개.">
 <meta name="twitter:image" content="https://aebonlee.github.io/hd-06/og-index.png">
 <!-- === HD:META:END === -->
 </head>
@@ -932,16 +932,16 @@
        ========================================================= -->
   <header class="topbar">
     <nav class="nav-wrap" aria-label="프로젝트 대시보드 메뉴">
-      <a href="#home" class="brand" aria-label="HD Project 홈">
+      <a href="#home" class="brand" aria-label="HDX/HCE 개발 계획 시뮬레이터 홈">
         <span class="brand-mark">HD</span>
-        <span>PROJECT DASHBOARD</span>
+        <span>HDX/HCE SIMULATOR</span>
       </a>
       <div class="nav-links">
-        <a class="nav-link active" href="#home">Overview</a>
-        <a class="nav-link" href="#resources">Documents</a>
-        <a class="nav-link" href="#progress">Progress</a>
-        <a class="nav-link" href="#schedule">Gantt</a>
-        <a class="nav-link" href="#team">Team</a>
+        <a class="nav-link active" href="#home">개요</a>
+        <a class="nav-link" href="#resources">데이터·기능</a>
+        <a class="nav-link" href="#progress">검증 현황</a>
+        <a class="nav-link" href="#schedule">처리 흐름</a>
+        <a class="nav-link" href="#team">분석 규칙</a>
       </div>
     </nav>
   </header>
@@ -953,28 +953,28 @@
     <section id="home" class="hero reveal">
       <div class="hero-grid">
         <div>
-          <span class="eyebrow">30 Members Collaboration</span>
-          <h1>HD 프로젝트를<br><span>한 화면에서 관리</span>합니다.</h1>
+          <span class="eyebrow">Development Plan Simulator · v1.0</span>
+          <h1>개발부터 생산까지<br><span>주간 부하를 예측</span>합니다.</h1>
           <p class="hero-copy">
-            회의록, Google Drive 공유 자료, 프로젝트 일정, 진행률을 하나의 대시보드에서 확인합니다.
-            팀원 30명이 같은 기준으로 자료를 찾고, 업로드하고, 일정 현황을 공유할 수 있도록 구성했습니다.
+            사내 개발 로드맵 Raw Data(엑셀)를 그대로 읽어 부문별 주간 필요 인원을 계산합니다.
+            인력 부족 구간의 기종·단계별 원인을 설명하고 일정·기간·인원 가정을 바꾼 전후 결과를 비교해 의사결정을 지원합니다.
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary" target="_blank" rel="noopener" href="https://docs.google.com/document/d/1jWdQ-jVno0jmseKnzJdQ7OwRvXtp3YUsdsx5vKOTdHI/edit?usp=sharing">회의록 열기 ↗</a>
-            <a class="btn btn-secondary" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1a1sIIchtB9inxF4-0BX4MLEe8VBxiao5?usp=sharing">공유 폴더 열기 ↗</a>
+            <a class="btn btn-primary" target="_blank" rel="noopener" href="https://aebonlee.github.io/build-2611-01/">시뮬레이터 실행 ↗</a>
+            <a class="btn btn-secondary" href="#resources">핵심 기능 살펴보기 ↓</a>
           </div>
         </div>
 
-        <aside class="hero-status" aria-label="프로젝트 전체 진행률">
-          <div class="hero-status-label">PROJECT COMPLETION</div>
+        <aside class="hero-status" aria-label="기획서 v1.0 테스트 통과율">
+          <div class="hero-status-label">v1.0 테스트 통과율 · 52/52</div>
           <div class="hero-progress-value"><span id="heroProgressText">0</span>%</div>
           <div class="hero-progress-track">
             <div id="heroProgressBar" class="hero-progress-bar"></div>
           </div>
           <div class="hero-meta">
-            <div class="meta-row"><span>참여 인원</span><strong>30명</strong></div>
-            <div class="meta-row"><span>현재 단계</span><strong id="currentPhase">기획 / 자료 수집</strong></div>
-            <div class="meta-row"><span>대시보드 기준일</span><strong id="todayLabel">-</strong></div>
+            <div class="meta-row"><span>계산 규칙 검증</span><strong>42 / 42 통과</strong></div>
+            <div class="meta-row"><span>화면 시연 검증</span><strong>10 / 10 통과</strong></div>
+            <div class="meta-row"><span>기획서 작성일</span><strong id="todayLabel">2026.11.02</strong></div>
           </div>
         </aside>
       </div>
@@ -983,116 +983,94 @@
     <!-- =======================================================
          요약 카드
          ======================================================= -->
-    <section class="summary-grid reveal" aria-label="프로젝트 주요 현황">
+    <section class="summary-grid reveal" aria-label="시뮬레이터 v1.0 주요 지표">
       <article class="card summary-card">
-        <div class="summary-label">TEAM MEMBERS</div>
-        <div class="summary-value">30</div>
-        <div class="summary-note">공유 자료 제작 참여 인원</div>
+        <div class="summary-label">EXCEL INPUT SHEETS</div>
+        <div class="summary-value">3</div>
+        <div class="summary-note">로드맵 · 부하기준 · 가용인력</div>
       </article>
       <article class="card summary-card">
-        <div class="summary-label">CORE DOCUMENT</div>
-        <div class="summary-value">1</div>
-        <div class="summary-note">대표 회의록 · 웹프로젝트_01</div>
+        <div class="summary-label">SCENARIO TYPES</div>
+        <div class="summary-value">4</div>
+        <div class="summary-note">일정 이동 · 기간 변경 · 가용 변경 · 부하기준 변경</div>
       </article>
       <article class="card summary-card">
-        <div class="summary-label">SHARED FOLDER</div>
-        <div class="summary-value">1</div>
-        <div class="summary-note">HD 프로젝트 파일 허브</div>
+        <div class="summary-label">LOGIC TESTS PASSED</div>
+        <div class="summary-value">42</div>
+        <div class="summary-note">계산 규칙 테스트 전부 통과 · v1.0</div>
       </article>
       <article class="card summary-card">
-        <div class="summary-label">PROJECT WEEKS</div>
-        <div class="summary-value">8</div>
-        <div class="summary-note">샘플 일정 · 필요 시 JS에서 수정</div>
+        <div class="summary-label">BROWSER TESTS PASSED</div>
+        <div class="summary-value">10</div>
+        <div class="summary-note">화면 시연 테스트 전부 통과 · v1.0</div>
       </article>
     </section>
 
     <!-- =======================================================
-         Google 문서 및 Drive 공유 폴더
+         분석 목적 및 입출력 데이터
          ======================================================= -->
     <section id="resources" class="section-block reveal">
       <div class="section-heading">
         <div>
-          <span class="eyebrow">Google Workspace</span>
-          <h2>문서 · 파일 공유 허브</h2>
+          <span class="eyebrow">Purpose &amp; Data</span>
+          <h2>분석 목적 · 입력 데이터</h2>
         </div>
-        <p>회의록은 Google Docs에서 공동 편집하고, 산출물·참고자료·이미지·압축파일 등은 지정된 Google Drive 공유 폴더에서 주고받습니다.</p>
+        <p>여러 기종의 개발 일정이 겹칠 때 부문별 인력 부족을 조기에 발견하고, 데이터 밖의 변경 사유도 가정 메모로 남기는 것이 목적입니다.</p>
       </div>
 
       <div class="resource-grid">
         <article class="card resource-card">
-          <span class="eyebrow">01 · Meeting Notes</span>
-          <h3>대표 회의록<br>웹프로젝트_01</h3>
+          <span class="eyebrow">01 · What it solves</span>
+          <h3>부문별 주간 업무 부하<br>미리 계산하기</h3>
           <p>
-            회의 일정, 논의 내용, 결정사항, 담당자, 후속 액션을 이 문서에 계속 누적합니다.
-            회의가 끝날 때마다 담당자가 결정사항과 다음 액션을 정리하는 방식으로 운영하면 좋습니다.
+            기획 → 개발 → 시험 → 검증 → 생산준비 → 생산 → 출시 로드맵 중
+            개발부터 생산까지의 구간을 대상으로 필요 인원을 계산합니다.
+            주간 히트맵과 부문별 추이·기종별 간트로 집중 구간을 확인하고,
+            부족 칸을 누르면 해당 기종·단계와 지난주 대비 증가·감소 원인을 볼 수 있습니다.
           </p>
-          <div class="folder-path">Google Docs / 웹프로젝트_01</div>
+          <div class="folder-path">핵심 결과: 주간 업무 부하 · 부족 구간 및 사유 · 부문별 추이 · 기종별 일정</div>
           <div class="resource-actions">
-            <a class="btn btn-primary" target="_blank" rel="noopener" href="https://docs.google.com/document/d/1jWdQ-jVno0jmseKnzJdQ7OwRvXtp3YUsdsx5vKOTdHI/edit?usp=sharing">회의록 편집하기 ↗</a>
+            <a class="btn btn-primary" target="_blank" rel="noopener" href="https://aebonlee.github.io/build-2611-01/">실제 시뮬레이터 열기 ↗</a>
           </div>
         </article>
 
         <article class="card resource-card">
-          <span class="eyebrow">02 · File Exchange</span>
-          <h3>HD 프로젝트<br>공유 폴더</h3>
+          <span class="eyebrow">02 · Input &amp; Output</span>
+          <h3>엑셀 3개 시트 입력<br>5개 결과 시트 출력</h3>
           <p>
-            프로젝트 동안 팀원 간 파일을 업로드하고 내려받는 공식 경로입니다.
-            정적 GitHub Pages에서는 Google 계정 인증 없이 파일을 직접 전송할 수 없으므로,
-            아래 버튼으로 공유 폴더를 열어 업로드·다운로드합니다.
+            로드맵(프로젝트·단계·시작일·종료일), 부하기준(단계·부문·주당 투입),
+            가용인력(부문·가용 인원)을 읽습니다.
+            일정 이동·기간 변경·가용 인력·부하기준 변경을 가정으로 누적하고,
+            변경 사유와 부문별 전후 차이를 함께 엑셀로 내보냅니다.
           </p>
-          <div class="folder-path">Google Drive / HD Project Shared Folder / 1a1sIIchtB9inxF4-0BX4MLEe8VBxiao5</div>
+          <div class="folder-path">결과 시트: 주간부하 · 부족구간_사유 · 가정목록 · 전후비교 · 가정후_주간부하</div>
           <div class="resource-actions">
-            <a class="btn btn-secondary" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1a1sIIchtB9inxF4-0BX4MLEe8VBxiao5?usp=sharing">파일 업로드 · 다운로드 ↗</a>
-            <button class="btn btn-ghost" type="button" id="copyFolderLink">폴더 링크 복사</button>
+            <a class="btn btn-secondary" href="#schedule">분석 처리 흐름 보기 ↓</a>
+            <button class="btn btn-ghost" type="button" id="copyFolderLink">시뮬레이터 링크 복사</button>
           </div>
         </article>
       </div>
 
-      <div class="upload-guide" aria-label="파일 공유 사용 방법">
-        <div class="guide-step"><strong>STEP 1</strong><span>“파일 업로드 · 다운로드” 버튼을 눌러 지정된 Google Drive 폴더를 엽니다.</span></div>
-        <div class="guide-step"><strong>STEP 2</strong><span>파일명 앞에 날짜 또는 팀명을 넣어 올리면 30명이 자료를 찾기 쉽습니다. 예: 0812_기획팀_초안.pdf</span></div>
-        <div class="guide-step"><strong>STEP 3</strong><span>기존 파일을 덮어쓰기보다 버전을 구분하고, 최종본에는 FINAL 또는 확정일을 표시합니다.</span></div>
+      <div class="upload-guide" aria-label="시뮬레이터 사용 순서">
+        <div class="guide-step"><strong>STEP 1</strong><span>로드맵·부하기준·가용인력 3개 시트가 담긴 엑셀 파일을 올립니다. 오류 줄은 '확인할 것'에 표시됩니다.</span></div>
+        <div class="guide-step"><strong>STEP 2</strong><span>부문×주 히트맵과 추이·간트로 부하를 보고, 부족 칸을 눌러 기종·단계별 사유를 확인합니다.</span></div>
+        <div class="guide-step"><strong>STEP 3</strong><span>일정·기간·인원·부하기준 가정과 사유를 추가해 전후 차이를 비교하고 엑셀 보고서를 받습니다.</span></div>
       </div>
 
-      <!--
-        Google Drive 폴더 임베드 영역입니다.
-        폴더가 공개/공유 상태여야 정상적으로 보입니다.
-        업로드 자체는 새 탭으로 열린 Google Drive 화면에서 진행합니다.
-      -->
       <div class="folder-frame-wrap">
         <div class="folder-frame-head">
-          <strong>공유 폴더 미리보기</strong>
-          <span>파일이 보이지 않으면 Google Drive에서 로그인 또는 권한을 확인하세요.</span>
+          <strong>주요 분석·판정 방식</strong>
+          <span>기획서 v1.0 기준 · 실제 데이터는 시뮬레이터에서 업로드</span>
         </div>
-        <!-- 미리보기는 **누를 때만** 불러온다.
-             처음부터 iframe 을 두면 사내 폐쇄망에서 응답 없이 기다리다
-             그 자리가 한참 빈 상자로 남는다. 무엇이 잘못됐는지도 안 보인다.
-             눌러서 부르면 인터넷이 될 때만 뜨고, 안 될 때는 아래 안내가 그대로 남는다. -->
-        <div class="folder-frame" id="drive-preview"
-             style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:28px">
-          <p style="margin:0;color:#5C6B7A;line-height:1.7">
-            공유 폴더 미리보기는 <strong>인터넷 연결이 필요합니다</strong>.<br>
-            사내망에서는 열리지 않으니 아래 “새 탭에서 열기”를 쓰세요.
+        <div class="folder-frame" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;padding:30px;height:auto;min-height:270px">
+          <h3>로드맵 엑셀 → 주간 부하 → 부족 사유 → 가정 전후 비교</h3>
+          <p style="max-width:800px;color:var(--green-72);line-height:1.9">
+            월요일을 주의 시작으로 보고 월~금 근무일에 실제로 걸친 비율만큼 주당 투입 인원을 합산합니다.
+            가용 대비 50% 미만은 여유, 90% 이상은 빠듯, 100% 초과는 부족으로 판정해요.
+            가정 적용은 원본을 보존한 복사본에서 수행합니다.
           </p>
-          <button type="button" id="drive-preview-load" class="btn btn-secondary">미리보기 불러오기</button>
+          <a class="btn btn-secondary" target="_blank" rel="noopener" href="https://aebonlee.github.io/build-2611-01/">실제 분석 화면 열기 ↗</a>
         </div>
-        <script>
-          document.getElementById('drive-preview-load').addEventListener('click', function () {
-            var box = document.getElementById('drive-preview');
-            box.innerHTML = '<p style="color:#5C6B7A">불러오는 중…</p>';
-            var f = document.createElement('iframe');
-            f.className = 'folder-frame';
-            f.title = 'HD 프로젝트 Google Drive 공유 폴더';
-            f.src = 'https://drive.google.com/embeddedfolderview?id=1a1sIIchtB9inxF4-0BX4MLEe8VBxiao5#grid';
-            // 폐쇄망에서는 onload 도 onerror 도 안 올 수 있다 — 시간을 재서 스스로 알린다
-            var t = setTimeout(function () {
-              box.innerHTML = '<p style="color:#C2451F;line-height:1.7">'
-                + '미리보기를 불러오지 못했습니다.<br>인터넷이 막혀 있거나 폴더 권한이 없는 경우입니다.</p>';
-            }, 8000);
-            f.addEventListener('load', function () { clearTimeout(t); });
-            box.replaceWith(f);
-          });
-        </script>
       </div>
     </section>
 
@@ -1102,28 +1080,28 @@
     <section id="progress" class="section-block reveal">
       <div class="section-heading">
         <div>
-          <span class="eyebrow">Progress Analytics</span>
-          <h2>진행률 대시보드</h2>
+          <span class="eyebrow">Validation &amp; Coverage</span>
+          <h2>v1.0 구현 · 검증 현황</h2>
         </div>
-        <p>아래 값은 샘플 초기값입니다. 파일 하단 JavaScript의 <code>projectProgress</code>와 <code>workstreams</code>만 수정하면 그래프가 자동 갱신됩니다.</p>
+        <p>기획서에 기록된 계산 규칙 테스트 42개와 브라우저 화면 테스트 10개가 모두 통과했어요. 아래 100%는 테스트 통과율 또는 기획서에 명시된 기능의 지원 여부이며 실제 인력 가용률이 아닙니다.</p>
       </div>
 
       <div class="progress-grid">
         <article class="card chart-card">
-          <h3>전체 프로젝트 진행률</h3>
+          <h3>기획서 기준 테스트 통과율</h3>
           <div class="donut-wrap">
-            <canvas id="progressChart" width="420" height="420" aria-label="전체 프로젝트 진행률 그래프"></canvas>
+            <canvas id="progressChart" width="420" height="420" aria-label="v1.0 테스트 통과율 원형 그래프"></canvas>
             <div class="donut-center">
               <div>
                 <strong><span id="donutProgressText">0</span>%</strong>
-                <span>Overall Progress</span>
+                <span>42 + 10개 테스트 통과</span>
               </div>
             </div>
           </div>
         </article>
 
         <article class="card work-card">
-          <h3>업무 영역별 진행률</h3>
+          <h3>검증·지원 항목 (v1.0)</h3>
           <div id="workList" class="work-list"></div>
         </article>
       </div>
@@ -1135,22 +1113,22 @@
     <section id="schedule" class="section-block reveal">
       <div class="section-heading">
         <div>
-          <span class="eyebrow">Project Schedule</span>
-          <h2>8주 간트차트</h2>
+          <span class="eyebrow">Analysis Pipeline</span>
+          <h2>8단계 처리 흐름</h2>
         </div>
-        <p>일정은 샘플로 설정되어 있습니다. 실제 프로젝트 일정에 맞춰 JavaScript의 <code>projectTasks</code> 배열에서 주차와 진행률만 수정하세요.</p>
+        <p>엑셀 업로드부터 검증·계산·판정·원인 설명·가정 적용·전후 비교·보고서까지의 처리 순서예요. 아래 가로축은 날짜가 아닌 기능 단계이며 소요 기간을 나타내지 않습니다.</p>
       </div>
 
       <article class="card gantt-card">
         <div class="gantt-toolbar">
           <div>
-            <h3>HD Project Master Schedule</h3>
-            <div class="gantt-note">진한 막대 = 작업 기간 · 골드 영역 = 해당 작업의 완료 비율</div>
+            <h3>Development Plan Simulation Pipeline</h3>
+            <div class="gantt-note">가로축 1~8 = 처리 단계(주차 아님) · 막대 = 해당 단계 · 골드 = v1.0 구현 범위</div>
           </div>
           <button class="btn btn-ghost" type="button" id="resetAnimations">그래프 다시 보기</button>
         </div>
         <div class="gantt-scroll">
-          <div id="gantt" class="gantt" aria-label="HD 프로젝트 간트차트"></div>
+          <div id="gantt" class="gantt" aria-label="개발 계획 시뮬레이터 8단계 처리 흐름"></div>
         </div>
       </article>
     </section>
@@ -1161,83 +1139,86 @@
     <section id="team" class="section-block reveal">
       <div class="section-heading">
         <div>
-          <span class="eyebrow">Team Guideline</span>
-          <h2>30명 협업 운영 기준</h2>
+          <span class="eyebrow">Rules &amp; Scope</span>
+          <h2>계산 규칙 · 제한 사항</h2>
         </div>
-        <p>인원이 많을수록 “어디에 기록할지”, “어디에 올릴지”, “파일명을 어떻게 정할지”를 통일하는 것이 중요합니다.</p>
+        <p>가용 인력 대비 부하 비율을 명확한 기준으로 판정하고, 원본 데이터 보존·가정 사유 기록을 원칙으로 합니다.</p>
       </div>
 
       <div class="team-grid">
         <article class="card team-card">
-          <h3>참여 인원</h3>
-          <div class="team-number">30</div>
-          <p style="margin-top:10px;">모든 참여자가 동일한 문서와 폴더 경로를 기준으로 작업합니다.</p>
+          <h3>부하 판정 구간</h3>
+          <div class="team-number">4</div>
+          <p style="margin-top:10px;">여유: 50% 미만 · 적정: 50% 이상~90% 미만 · 빠듯: 90% 이상~100% 이하 · 부족: 100% 초과</p>
+          <p style="margin-top:8px;">가용 인력이 없는 경우는 판정하지 않아요.</p>
         </article>
 
         <article class="card team-card">
-          <h3>회의 기록 원칙</h3>
+          <h3>주간 부하 계산 원칙</h3>
           <ul>
-            <li>회의 전: 안건과 필요한 링크 미리 등록</li>
-            <li>회의 중: 결정사항과 미결사항 분리 기록</li>
-            <li>회의 후: 담당자·기한·후속 액션 확정</li>
+            <li>한 주는 월요일에 시작하고 월~금 근무일 기준으로 계산</li>
+            <li>단계가 해당 주에 걸친 근무일 비율 × 주당 투입 인원</li>
+            <li>기종 전용 기준이 있으면 일반 기준을 중복 적용하지 않음</li>
+            <li>부족 누적 인주 = 각 부족 주의 (필요 − 가용) 합계</li>
           </ul>
         </article>
 
         <article class="card team-card">
-          <h3>파일 관리 원칙</h3>
+          <h3>이번 버전의 범위</h3>
           <ul>
-            <li>파일명: 날짜_팀명_내용_버전 형식 권장</li>
-            <li>확정본에는 FINAL 또는 확정일 표시</li>
-            <li>개인 메신저보다 공유 폴더를 공식 원본으로 사용</li>
+            <li>사내 로드맵 시스템 자동 연동은 제외 · 엑셀 업로드 방식</li>
+            <li>부문별 투입 기준은 자동 산정하지 않고 별도 협의</li>
+            <li>후속 검토: 과거 실적 기준 역산, 숙련도·외주 구분, 가정 A/B/C 저장·다중 비교</li>
+            <li>기획서 v1.0 · 2026-11-02 · GitHub Pages 배포</li>
           </ul>
         </article>
       </div>
     </section>
 
     <footer>
-      <div><strong>HD Project Collaboration Dashboard</strong><br>GitHub Pages + Google Workspace 기반 협업 허브</div>
+      <div><strong>HDX/HCE 개발 계획 시뮬레이터 프로젝트</strong><br>생성형 AI 업무자동화 전문가과정 · 2차수 · 기획서 v1.0 (2026-11-02)</div>
       <div>Last rendered: <span id="renderedAt">-</span></div>
     </footer>
   </main>
 
   <script>
     /* =========================================================
-       HD PROJECT DASHBOARD JAVASCRIPT
+       HDX/HCE DEVELOPMENT PLAN SIMULATOR DASHBOARD JAVASCRIPT
 
        유지보수 포인트
-       1) projectProgress : 전체 진행률
-       2) workstreams     : 영역별 진행률
-       3) projectTasks    : 간트차트 일정
-       이 세 영역만 수정해도 대부분의 대시보드 정보가 바뀝니다.
+       1) projectProgress : 기획서 v1.0 테스트 통과율
+       2) workstreams     : 검증 및 지원 기능 상태
+       3) projectTasks    : 8단계 처리 흐름
+       화면의 값은 기획서에 기록된 사실을 바탕으로 합니다.
        ========================================================= */
 
     // ---------------------------------------------------------
     // 1. 프로젝트 기본 데이터
     // ---------------------------------------------------------
-    const projectProgress = 28; // 전체 프로젝트 진행률 (0~100)
+    const projectProgress = 100; // 기획서 v1.0: 계산 테스트 42/42 + 화면 테스트 10/10 통과율
 
     const workstreams = [
-      { name: "기획 · 요구사항", progress: 72 },
-      { name: "자료 수집 · 정리", progress: 48 },
-      { name: "콘텐츠 제작", progress: 26 },
-      { name: "디자인 · 편집", progress: 18 },
-      { name: "검수 · 최종 배포", progress: 6 }
+      { name: "계산 규칙 테스트 42/42", progress: 100 },
+      { name: "화면 테스트 10/10", progress: 100 },
+      { name: "입력 데이터 시트 3/3", progress: 100 },
+      { name: "가정 유형 4/4", progress: 100 },
+      { name: "엑셀 출력 시트 5/5", progress: 100 }
     ];
 
     /*
-      startWeek / endWeek는 1~8 범위입니다.
-      progress는 각 업무 자체의 완료율입니다.
-      owner는 담당 그룹 또는 담당자명으로 바꿀 수 있습니다.
+      원래 간트 화면의 8칸을 활용해 기획서 처리 흐름을 순서대로 소개합니다.
+      startWeek/endWeek는 시간이나 주차가 아니라 1~8번 처리 단계를 뜻합니다.
+      모든 단계는 기획서 v1.0에서 구현된 항목으로 기록되어 있습니다.
     */
     const projectTasks = [
-      { title: "Kick-off · 역할 분담", owner: "PM / 전체", startWeek: 1, endWeek: 1, progress: 100 },
-      { title: "요구사항 · 범위 정의", owner: "기획팀", startWeek: 1, endWeek: 2, progress: 78 },
-      { title: "자료 수집 · 구조화", owner: "자료팀", startWeek: 1, endWeek: 4, progress: 48 },
-      { title: "콘텐츠 초안 제작", owner: "콘텐츠팀", startWeek: 2, endWeek: 5, progress: 32 },
-      { title: "디자인 · 템플릿 통일", owner: "디자인팀", startWeek: 3, endWeek: 6, progress: 20 },
-      { title: "통합본 제작", owner: "편집팀", startWeek: 5, endWeek: 7, progress: 8 },
-      { title: "검수 · 피드백 반영", owner: "검수팀 / 전체", startWeek: 6, endWeek: 8, progress: 4 },
-      { title: "최종 배포 · 회고", owner: "PM / 전체", startWeek: 8, endWeek: 8, progress: 0 }
+      { title: "엑셀 로드맵 올리기", owner: "로드맵·부하기준·가용인력", startWeek: 1, endWeek: 1, progress: 100 },
+      { title: "정리·검증", owner: "날짜·열 이름·입력 오류", startWeek: 2, endWeek: 2, progress: 100 },
+      { title: "주간 부하 계산", owner: "부문별 근무일 비율", startWeek: 3, endWeek: 3, progress: 100 },
+      { title: "가용 대비 판정", owner: "여유·적정·빠듯·부족", startWeek: 4, endWeek: 4, progress: 100 },
+      { title: "원인 설명", owner: "기종·단계·지난주 증감", startWeek: 5, endWeek: 5, progress: 100 },
+      { title: "가정 적용", owner: "일정·기간·인원·부하기준", startWeek: 6, endWeek: 6, progress: 100 },
+      { title: "변경 전후 비교", owner: "부하·부족 주·누적 인주", startWeek: 7, endWeek: 7, progress: 100 },
+      { title: "엑셀 보고서 출력", owner: "5개 결과 시트", startWeek: 8, endWeek: 8, progress: 100 }
     ];
 
     // ---------------------------------------------------------
@@ -1372,7 +1353,7 @@
 
     // ---------------------------------------------------------
     // 6. 간트차트 생성
-    // 전체 8주를 기준으로 위치와 폭을 자동 계산합니다.
+    // 전체 8개 단계 칸을 기준으로 위치와 폭을 계산합니다.
     // ---------------------------------------------------------
     function renderGantt() {
       const gantt = document.getElementById("gantt");
@@ -1384,7 +1365,7 @@
 
       const timeHead = document.createElement("div");
       timeHead.className = "gantt-time-head";
-      timeHead.innerHTML = Array.from({ length: 8 }, (_, i) => `<span>${i + 1}주차</span>`).join("");
+      timeHead.innerHTML = Array.from({ length: 8 }, (_, i) => `<span>${i + 1}단계</span>`).join("");
 
       gantt.append(labelHead, timeHead);
 
@@ -1408,8 +1389,8 @@
         bar.style.left = `calc(${left}% + 8px)`;
         bar.style.width = `calc(${width}% - 16px)`;
         bar.style.setProperty("--task-progress", `${clamp(task.progress, 0, 100)}%`);
-        bar.title = `${task.title} · ${startWeek}~${endWeek}주차 · ${task.progress}% 완료`;
-        bar.innerHTML = `<span>${task.progress}%</span>`;
+        bar.title = `${task.title} · ${startWeek}단계 · 기획서 v1.0 구현 항목`;
+        bar.innerHTML = `<span>${startWeek}단계</span>`;
 
         row.appendChild(bar);
         gantt.append(label, row);
@@ -1446,11 +1427,11 @@
     }
 
     // ---------------------------------------------------------
-    // 8. 공유 폴더 링크 복사
+    // 8. 시뮬레이터 실행 링크 복사
     // ---------------------------------------------------------
     function initCopyFolderLink() {
       const button = document.getElementById("copyFolderLink");
-      const folderUrl = "https://drive.google.com/drive/folders/1a1sIIchtB9inxF4-0BX4MLEe8VBxiao5?usp=sharing";
+      const folderUrl = "https://aebonlee.github.io/build-2611-01/";
 
       button.addEventListener("click", async () => {
         const originalText = button.textContent;
@@ -1483,16 +1464,10 @@
     // ---------------------------------------------------------
     document.addEventListener("DOMContentLoaded", () => {
       const today = new Date();
-      document.getElementById("todayLabel").textContent = formatKoreanDate(today);
-      document.getElementById("renderedAt").textContent = `${formatKoreanDate(today)} · Dashboard v1.0`;
+      document.getElementById("todayLabel").textContent = "2026.11.02";
+      document.getElementById("renderedAt").textContent = `${formatKoreanDate(today)} 열람 · 기획서 v1.0`;
 
-      // 진행률을 기준으로 현재 단계를 간단히 표시합니다.
-      const currentPhase = document.getElementById("currentPhase");
-      if (projectProgress < 20) currentPhase.textContent = "프로젝트 착수";
-      else if (projectProgress < 40) currentPhase.textContent = "기획 / 자료 수집";
-      else if (projectProgress < 70) currentPhase.textContent = "콘텐츠 / 디자인 제작";
-      else if (projectProgress < 90) currentPhase.textContent = "통합 / 검수";
-      else currentPhase.textContent = "최종 배포 / 회고";
+      // 기획서 기준 배포·검증 상태는 고정 사실로 표시하며, 가상의 진행 단계를 추정하지 않습니다.
 
       renderHeroProgress();
       drawProgressChart(projectProgress);
